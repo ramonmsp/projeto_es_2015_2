@@ -7,7 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', 'SPLArch.core.views.home', name='home'),
     # url(r'^SPLArch/', include('SPLArch.foo.urls')),
-
+	url(r'^imagem/$', 'SPLArch.core.views.pil_image'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
