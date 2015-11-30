@@ -1,0 +1,7 @@
+Django==1.5
+django-admin-bootstrapped==1.6.9
+django-bootstrap3==5.1.1
+html5lib==0.9999999
+Pillow==3.0.0
+pisa==3.0.33
+reportlab==2.6
