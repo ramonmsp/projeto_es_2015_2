@@ -1,10 +1,17 @@
-# Create your views here.
 from django.shortcuts import render,render_to_response
-from django.http import HttpResponseRedirect,HttpResponse
 from PIL import Image,ImageDraw
+from django.http import HttpResponse
+
+from django import http
+from django.template.loader import get_template
+from django.template import Context
+import ho.pisa as pisa
+import cStringIO as StringIO
+import cgi
 
 def home(request):
 	return render_to_response('core/index.html')
+
 
 def pil_image(request):
     ''' A View that Returns a PNG Image generated using PIL'''
@@ -27,3 +34,20 @@ def pil_image(request):
     im.save(response, 'PNG')
 
     return response # and we're done!
+
+def gerar_pdf(template_src, context_dict):
+    template = get_template(template_src)
+    context = Context(context_dict)
+    html  = template.render(context)
+    result = StringIO.StringIO()
+    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), result)
+    if not pdf.err:
+        return http.HttpResponse(result.getvalue(), mimetype='application/pdf')
+    return http.HttpResponse('Erro ao gerar pdf! %s' % cgi.escape(html))
+
+def pdf(request):
+    return gerar_pdf('core/pdf.html',{
+        'titulo' : 'Testando o PISA',
+        'app' : {
+            'versao' : '3.0.3'
+        }})
