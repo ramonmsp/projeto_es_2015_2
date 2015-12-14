@@ -121,9 +121,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'django_admin_bootstrapped.bootstrap3',
-    'django_admin_bootstrapped',
-    'django.contrib.admin',
     'SPLArch.core'
 )
 
