@@ -1,5 +1,5 @@
 from django.contrib import admin
-from SPLArch.product.models import Product
+from SPLArch.product.models import *
 
 
 class productAdmin(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class productAdmin(admin.ModelAdmin):
                  ]
 
 admin.site.register(Product, productAdmin)
+admin.site.register(Project)
