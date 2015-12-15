@@ -19,7 +19,7 @@ except ImportError:  # pragma: no cover (Django 1.4 compatibility)
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
-from mptt.utils import (drilldown_tree_for_node, get_cached_trees,
+from SPLArch.product.mptt.utils import (drilldown_tree_for_node, get_cached_trees,
                         tree_item_iterator)
 
 register = template.Library()
