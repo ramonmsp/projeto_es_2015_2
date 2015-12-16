@@ -6,6 +6,9 @@ class productAdmin(admin.ModelAdmin):
     fieldsets = [
                  ('Products', {'fields': ['name','description'], 'classes': ['collapse']})
                  ]
+                 
+class projectAdmin(admin.ModelAdmin):
+    filter_horizontal = ('product',)
 
 admin.site.register(Product, productAdmin)
-admin.site.register(Project)
+admin.site.register(Project, projectAdmin)
