@@ -6,6 +6,18 @@ from django.forms.models import *
 from django.forms import TextInput, Textarea
 
 
+<<<<<<< HEAD
+class productAdmin(admin.ModelAdmin):
+    fieldsets = [
+                 ('Products', {'fields': ['name','description'], 'classes': ['collapse']})
+                 ]
+                 
+class projectAdmin(admin.ModelAdmin):
+    filter_horizontal = ('product',)
+
+admin.site.register(Product, productAdmin)
+admin.site.register(Project, projectAdmin)
+=======
 class ProductMapForm(ModelForm):
     features = ModelMultipleChoiceField(required=False, queryset=Feature.objects.all(), widget=MpttTreeWidget)
 
@@ -23,3 +35,4 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Project)
 admin.site.register(Feature)
+>>>>>>> e630f75bca2eb7d4539e91c8a9017f5c118a47ec

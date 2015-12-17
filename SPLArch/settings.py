@@ -124,6 +124,8 @@ INSTALLED_APPS = (
     'django_admin_bootstrapped.bootstrap3',
     'django_admin_bootstrapped',
     'django.contrib.admin',
+    'SPLArch.product.mptt',
+    'SPLArch.product.mptttreewidget',
     'SPLArch.core',
     'SPLArch.product'
 )
