@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'admin_bootstrapped',
@@ -127,6 +128,13 @@ INSTALLED_APPS = (
     'SPLArch.architecture',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+=======
+    'django_admin_bootstrapped.bootstrap3',
+    'django_admin_bootstrapped',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+    'SPLArch.core'
+>>>>>>> 2ac012154346db1afd5d9bd6d763fc6067b9a6c9
 )
 
 # A sample logging configuration. The only tangible logging
