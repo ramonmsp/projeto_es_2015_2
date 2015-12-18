@@ -38,9 +38,107 @@ class FeatureRequireAdminInline(admin.TabularInline):
     fk_name = 'from_feature'
     extra = 0
     #form = RequiredFeaturesForm 
+    
 class ProjectAdmin(admin.ModelAdmin):
     fields = ['name', 'description', 'product',]
-    filter_horizontal = ("product",)   
+    filter_horizontal = ("product",)  
+    
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        opts = self.model._meta
+        if not request.REQUEST.has_key("_change"):
+            if request.REQUEST.has_key("_zipreport"):
+                project = Project.objects.get(id=object_id)
+                #use case
+                usecase = UseCase.getReport(product)
+                usecaseTemp = NamedTemporaryFile()
+                usecaseTemp.close()
+                usecaseTemp = codecs.open(usecaseTemp.name,'wb')
+                usecaseTemp.write(usecase)
+                usecaseTemp.close()
+
+                #Feature
+                features = Feature.getReport(Project.objects.get(id=object_id))
+                featuresTemp = NamedTemporaryFile()
+                featuresTemp.close()
+                featuresTemp = codecs.open(featuresTemp.name,'wb')
+                featuresTemp.write(features)
+                featuresTemp.close()
+
+                #Glossary
+                glossary = Glossary.getReport(Project.objects.get(id=object_id))
+                glossaryTemp = NamedTemporaryFile()
+                glossaryTemp.close()
+                glossaryTemp = codecs.open(glossaryTemp.name,'wb')
+                glossaryTemp.write(glossary)
+                glossaryTemp.close()
+
+                #Test Case
+                #testCase = TestCase.getReport(Product.objects.get(id=object_id))
+               # testCaseTemp = NamedTemporaryFile()
+               # testCaseTemp.close()
+               # testCaseTemp = codecs.open(testCaseTemp.name,'wb')
+               #testCaseTemp.write(testCase)
+                #testCaseTemp.close()
+
+
+                #User story
+                #userStory = UserStory.getReport(Product.objects.get(id=object_id))
+                #userStoryTemp = NamedTemporaryFile()
+                #userStoryTemp.close()
+                #userStoryTemp = codecs.open(userStoryTemp.name,'wb')
+                #userStoryTemp.write(userStory)
+                #userStoryTemp.close()
+
+
+                # Folder name in ZIP archive which contains the above files
+                # E.g [thearchive.zip]/somefiles/file2.txt
+                # FIXME: Set this to something better
+                zip_subdir = product.name.replace(" ", "_")+"_artifacs"
+                zip_filename = "%s.zip" % zip_subdir
+
+                # Open StringIO to grab in-memory ZIP contents
+                s = StringIO.StringIO()
+
+                # The zip compressor
+                zf = zipfile.ZipFile(s, "w")
+
+                # Calculate path for file in zip
+                usecase_zip_path = os.path.join(zip_subdir, product.name+ "_usecase_report.pdf")
+                feature_zip_path = os.path.join(zip_subdir, product.name+ "_features_report.pdf")
+                glossary_zip_path = os.path.join(zip_subdir, product.name+ "_glossary_report.pdf")
+                testCase_zip_path = os.path.join(zip_subdir, product.name+ "_testCase_report.pdf")
+                userStory_zip_path = os.path.join(zip_subdir, product.name+ "_userStory_report.pdf")
+
+                # Add file, at correct path
+                zf.write(usecaseTemp.name, usecase_zip_path)
+                zf.write(featuresTemp.name, feature_zip_path)
+                zf.write(glossaryTemp.name, glossary_zip_path)
+                #zf.write(testCaseTemp.name, testCase_zip_path)
+                #zf.write(userStoryTemp.name, userStory_zip_path)
+
+                # Must close zip for all contents to be written
+                zf.close()
+
+                # Grab ZIP file from in-memory, make response with correct MIME-type
+                resp = HttpResponse(s.getvalue(), mimetype = "application/x-zip-compressed")
+                # ..and correct content-disposition
+                resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+                return resp
+            else:
+                project = Project.objects.get(id=object_id)
+                context = {
+                    'project': project,
+                    'title': _('Project: %s') % force_unicode(project.name),
+                    'opts': opts,
+                    'object_id': object_id,
+                    'is_popup': request.REQUEST.has_key('_popup'),
+                    'app_label': opts.app_label,
+                    }
+                return render_to_response('admin/fur/project/view.html',
+                                          context,
+                                          context_instance=RequestContext(request))
+        return super(Project, self).change_view(request, object_id,
+            form_url, extra_context=None) 
     
 class FeatureAdmin(admin.ModelAdmin):
     fields = ['name', 'description', 'type', 'variability'  , 'binding_time' , 'parent' , 'glossary', ]
