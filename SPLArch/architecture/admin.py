@@ -321,8 +321,8 @@ class GlossaryAdmin(admin.ModelAdmin):
 
 class RequirementFeaturesAdminInline(admin.TabularInline):
     model = Requirement.feature.through
-    verbose_name_plural = 'Features'
-    verbose_name = 'Feature'
+    verbose_name_plural = 'Related Features'
+    verbose_name = 'Related Feature'
     #fk_name = 'scopeBacklog'
     extra = 0
     formfield_overrides = {
@@ -360,7 +360,7 @@ class UseCaseAlternativeStepsAdminInline(admin.TabularInline):
     }
 
 class RequirementAdmin(admin.ModelAdmin):
-    fields = ['name','description','observations']
+    fields = ['name','description','status_requirement_choices','requirement_type','priority', 'observations', ]
     inlines = [ RequirementFeaturesAdminInline ]
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40,'class':'vLargeTextField',})},
@@ -381,6 +381,12 @@ class UseCaseAdmin(admin.ModelAdmin):
         extra_context = extra_context or {}
         extra_context['has_report'] = True
         return super(UseCaseAdmin, self).changelist_view(request, extra_context=extra_context)
+
+
+class RequirementTypeAdmin(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        return {}
+
 '''
     def change_view(self, request, object_id, form_url='', extra_context=None):
         opts = self.model._meta
@@ -543,4 +549,5 @@ admin.site.register(AcceptanceTest, AcceptanceTestAdmin)
 admin.site.register(AcceptanceTestExecution, AcceptanceTestExecutionAdmin)
 '''
 admin.site.register(BindingTime)
+admin.site.register(RequirementType, RequirementTypeAdmin)
 admin.site.register(Project, ProjectAdmin)

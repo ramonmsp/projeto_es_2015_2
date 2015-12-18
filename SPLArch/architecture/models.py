@@ -5,10 +5,15 @@ from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 from SPLArch.architecture.util import render_to_latex
 
-REQUIREMENT_TYPE = (
-    ('functional-requirements', 'Functional Requirements'),
-    ('non-functional', 'Non Functional')
-),
+STATUS_REQUIREMENT_CHOICES = (
+    ('proposed', 'Proposed'),
+    ('approved', 'Approved'),
+    ('implemented', 'Implemented'),
+    ('verified', 'Verified'),
+    ('deferred', 'Deferred'),
+    ('deleted', 'Deleted'),
+    ('rejected', 'Rejected'),
+)
 
 VARIABILITY_CHOICES = (
     ('mandatory', 'Mandatory'),
@@ -19,6 +24,17 @@ TYPE_CHOICES = (
     ('abstract', 'Abstract'),
     ('concrete', 'Concrete')
 )
+
+
+PRIORITY = (
+    ('no-priority', 'No Priority'),
+    ('low', 'Low'),
+    ('medium', 'Medium'),
+    ('high', 'High'),
+    ('very-high', 'Very High'),
+    ('Urgent', 'Urgent'),
+)
+
 
 class Feature(MPTTModel):
     name = models.CharField(max_length=200)
@@ -56,11 +72,23 @@ class Feature(MPTTModel):
                     'autoescape': False}
         return render_to_latex("admin/fur/feature/report_features.tex",mycontext)
 
+class RequirementType(models.Model):
+    name = models.CharField(max_length=200)
+    def __unicode__(self):
+        return self.name
+
+
 class Requirement(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     observations = models.TextField(blank=True)
+    status_requirement_choices = models.CharField( max_length=200, choices=STATUS_REQUIREMENT_CHOICES, verbose_name='Status')
+    requirement_type =models.ForeignKey('RequirementType')
     feature = models.ManyToManyField(Feature)
+    priority = models.CharField(max_length=20, choices=PRIORITY)
+
+    def __unicode__(self):
+        return self.name
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
@@ -130,7 +158,7 @@ class UseCase(models.Model):
     precondition = models.TextField(max_length=200, blank=True,verbose_name="Pre-condition")
     feature = models.ManyToManyField(Feature)
     mainSteps = models.ManyToManyField('MainSteps', blank=True, symmetrical=False, related_name='mainsteps_funcspec')
-    owner = models.ManyToManyField(User, blank=True, symmetrical=False, related_name='owner_funcspec')
+    owner = models.ManyToManyField(User, blank=False, symmetrical=False, related_name='owner_funcspec')
     alternativeSteps = models.ManyToManyField('AlternativeSteps', blank=True, symmetrical=False, related_name='alternativesteps_funcspec')
 
     def __unicode__(self):
