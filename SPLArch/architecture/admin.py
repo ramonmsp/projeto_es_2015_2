@@ -37,7 +37,10 @@ class FeatureRequireAdminInline(admin.TabularInline):
     #I gor the fk_name using the django shell, by inspecting the objet Feature
     fk_name = 'from_feature'
     extra = 0
-    #form = RequiredFeaturesForm    
+    #form = RequiredFeaturesForm 
+class ProjectAdmin(admin.ModelAdmin):
+    fields = ['name', 'description', 'product',]
+    filter_horizontal = ("product",)   
     
 class FeatureAdmin(admin.ModelAdmin):
     fields = ['name', 'description', 'type', 'variability'  , 'binding_time' , 'parent' , 'glossary', ]
@@ -441,4 +444,4 @@ admin.site.register(AcceptanceTest, AcceptanceTestAdmin)
 admin.site.register(AcceptanceTestExecution, AcceptanceTestExecutionAdmin)
 '''
 admin.site.register(BindingTime)
-admin.site.register(Project)
+admin.site.register(Project, ProjectAdmin)
