@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import *
 from mptt.models import MPTTModel, TreeForeignKey
 from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
@@ -129,6 +130,7 @@ class UseCase(models.Model):
     precondition = models.TextField(max_length=200, blank=True,verbose_name="Pre-condition")
     feature = models.ManyToManyField(Feature)
     mainSteps = models.ManyToManyField('MainSteps', blank=True, symmetrical=False, related_name='mainsteps_funcspec')
+    owner = models.ManyToManyField(User, blank=True, symmetrical=False, related_name='owner_funcspec')
     alternativeSteps = models.ManyToManyField('AlternativeSteps', blank=True, symmetrical=False, related_name='alternativesteps_funcspec')
 
     def __unicode__(self):

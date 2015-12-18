@@ -368,13 +368,14 @@ class RequirementAdmin(admin.ModelAdmin):
     list_filter = ('feature',)
 
 class UseCaseAdmin(admin.ModelAdmin):
-    fields = ['title','description','feature'
+    fields = ['title','description','owner','feature'
     ,'precondition']
     inlines = [ UseCaseMainStepsAdminInline,UseCaseAlternativeStepsAdminInline  ]
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40,'class':'vLargeTextField',})},
     }
     list_filter = ('feature',)
+    filter_horizontal = ("feature","owner")
 
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
