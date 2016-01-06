@@ -8,15 +8,13 @@ Splash is a web application that helps software development documentation, allow
 Installation 
 ---------------------------
 
-Clone the project a
+Clone the project
 
         gitclone https://github.com/cretchas/projeto_es_2015_2.git
 
 Create the database
 
-cd project_path
-
-        cd my/project/dir
+        cd project_path
         manage.py syncdb
 
 Run project
