@@ -1,10 +1,10 @@
 #SPLArch
-** A SPLArch** é uma ferramenta voltada para a documentação de arquitetura do software desenvolvida em Django. 
-** Pacotes Utilizados →** Para realizar a instalaçãos dos pacotes é disponibilizado um requiremenst.txt, uma vez com o virtualenv instalado será necessário somente " pip install -r /path/to/requirements.txt "
+**A SPLArch** é uma ferramenta voltada para a documentação de arquitetura do software desenvolvida em Django. 
+**Pacotes Utilizados →** Para realizar a instalaçãos dos pacotes é disponibilizado um requiremenst.txt, uma vez com o virtualenv instalado será necessário somente " pip install -r /path/to/requirements.txt "
 
 
 #Engenharia de Software
-** Participantes :**
+**Participantes :**
 Cremildo Lima<br>
 Airton Ribeiro<br>
 Joabe<br>
