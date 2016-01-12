@@ -7,13 +7,13 @@
 **Participantes :**<br>
 Cremildo Lima<br>
 Airton Ribeiro<br>
-Joabe<br>
+Joabe Pinheiro<br>
 Fagner Pinheiro<br>
 Randler Ferraz<br>
 Ramon Maciel<br>
 Cátia Oliveira<br>
-Mateus<br>
-Leonardo<br>
+Mateus Coqueiro<br>
+Leonardo Aguiar<br>
 Italo Miranda<br>
 
 #Versão dos pacotes utilizados<br>
