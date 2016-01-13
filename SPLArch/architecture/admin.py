@@ -37,11 +37,15 @@ class FeatureRequireAdminInline(admin.TabularInline):
     #I gor the fk_name using the django shell, by inspecting the objet Feature
     fk_name = 'from_feature'
     extra = 0
-    #form = RequiredFeaturesForm 
-    
+    #form = RequiredFeaturesForm
+
+class TechnologyAdmin(admin.ModelAdmin):
+    fields = ['api', 'description',]
+    filter_horizontal = ("api",)
+
 class ProjectAdmin(admin.ModelAdmin):
     fields = ['name', 'description', 'product',]
-    filter_horizontal = ("product",)  
+    filter_horizontal = ("product",)
     
     def change_view(self, request, object_id, form_url='', extra_context=None):
         opts = self.model._meta
@@ -552,5 +556,5 @@ admin.site.register(BindingTime)
 admin.site.register(RequirementType, RequirementTypeAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(References)
-admin.site.register(Technology)
+admin.site.register(Technology, TechnologyAdmin)
 admin.site.register(API)
