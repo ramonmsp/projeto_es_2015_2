@@ -1,11 +1,10 @@
-# Django settings for SPLArch project.
+# Django settings for splice project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Fagner', 'fagnerpinheirosantos@gmail.com'),
-    ('Randler', 'randlersi@gmail.com')
+    # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -13,10 +12,12 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'SPLArch.sqlite3',                      # Or path to database file if using sqlite3.
+        'NAME': 'SPLArch.db',                     # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        #'USER': 'root',
+        'PASSWORD': '',
+        #'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        #'PORT': '3306',                      # Set to empty string for default.
     }
 }
 
@@ -28,11 +29,11 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Bahia'
+TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'pt-BR'
+LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
@@ -82,7 +83,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'j+8oa%x_+4zjax4$2qc3=p34i5via5=o-t6(e)a!v2v9*rg8&a'
+SECRET_KEY = 'gux_pij)-zh#sznoo5cpzz^&3(4@faqwgow7m!!q##%t^g2nb#'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -106,12 +107,11 @@ ROOT_URLCONF = 'SPLArch.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'SPLArch.wsgi.application'
 
+import os
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),
 )
-
+print(os.path.join(os.path.dirname(__file__), '', 'templates').replace('\\','/'))
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -119,14 +119,22 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Uncomment the next line to enable the admin:
+    'django.contrib.admin',
+    'admin_bootstrapped',
+    'mptt',
+    'mptttreewidget',
+    'SPLArch.architecture',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
+
     'django_admin_bootstrapped.bootstrap3',
     'django_admin_bootstrapped',
     'django.contrib.admin',
-    'django.contrib.admindocs',
-    'SPLArch.core'
-)
+    'django.contrib.admindocs'
 
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
