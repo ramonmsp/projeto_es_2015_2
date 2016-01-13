@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+import SPLArch
 from SPLArch.architecture.models import *
 from django.contrib.auth.models import * 
 from django import forms
@@ -391,6 +393,13 @@ class RequirementTypeAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):
         return {}
 
+
+class ArchitectureAdmin(admin.ModelAdmin):
+    model = Architecture
+
+    def __unicode__(self):
+        return '%s' % self.nome
+
 '''
     def change_view(self, request, object_id, form_url='', extra_context=None):
         opts = self.model._meta
@@ -558,3 +567,4 @@ admin.site.register(Project, ProjectAdmin)
 admin.site.register(References)
 admin.site.register(Technology, TechnologyAdmin)
 admin.site.register(API)
+admin.site.register(Architecture)
