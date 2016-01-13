@@ -109,6 +109,29 @@ class References(models.Model):
     def __unicode__(self):
         return self.title
 
+class Technology(models.Model):
+    api = models.ManyToManyField('API', verbose_name="API")
+    description = models.TextField(blank=True)
+
+    def __unicode__(self):
+        return self.description
+
+    class Meta:
+        verbose_name="Technology"
+        verbose_name_plural="Technologies"
+
+class API(models.Model):
+    name = models.CharField(max_length=100)
+    version = models.CharField(max_length=100)
+    specification = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name="API"
+        verbose_name_plural="APIs"
+
 class Project(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
