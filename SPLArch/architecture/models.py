@@ -5,16 +5,6 @@ from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 from SPLArch.architecture.util import render_to_latex
 
-STATUS_REQUIREMENT_CHOICES = (
-    ('proposed', 'Proposed'),
-    ('approved', 'Approved'),
-    ('implemented', 'Implemented'),
-    ('verified', 'Verified'),
-    ('deferred', 'Deferred'),
-    ('deleted', 'Deleted'),
-    ('rejected', 'Rejected'),
-)
-
 VARIABILITY_CHOICES = (
     ('mandatory', 'Mandatory'),
     ('optional', 'Optional'),
@@ -23,16 +13,6 @@ VARIABILITY_CHOICES = (
 TYPE_CHOICES = (
     ('abstract', 'Abstract'),
     ('concrete', 'Concrete')
-)
-
-
-PRIORITY = (
-    ('no-priority', 'No Priority'),
-    ('low', 'Low'),
-    ('medium', 'Medium'),
-    ('high', 'High'),
-    ('very-high', 'Very High'),
-    ('Urgent', 'Urgent'),
 )
 
 
@@ -72,23 +52,7 @@ class Feature(MPTTModel):
                     'autoescape': False}
         return render_to_latex("admin/fur/feature/report_features.tex",mycontext)
 
-class RequirementType(models.Model):
-    name = models.CharField(max_length=200)
-    def __unicode__(self):
-        return self.name
 
-
-class Requirement(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    observations = models.TextField(blank=True)
-    status_requirement_choices = models.CharField( max_length=200, choices=STATUS_REQUIREMENT_CHOICES, verbose_name='Status')
-    requirement_type =models.ForeignKey('RequirementType')
-    feature = models.ManyToManyField(Feature)
-    priority = models.CharField(max_length=20, choices=PRIORITY)
-
-    def __unicode__(self):
-        return self.name
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
