@@ -19,7 +19,6 @@ Italo Miranda<br>
 #Versão dos pacotes utilizados<br>
 * Python=2.7.3<br>
 * Django=1.5.12<br>
-* VirtualEnv=13.1.2<br>
 * Pillow=3.0.0<br>
 * django-admin-bootstrapped==1.6.9<br>
 * django-bootstrap3==5.1.1<br>
