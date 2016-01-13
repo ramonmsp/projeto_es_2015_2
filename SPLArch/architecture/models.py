@@ -101,6 +101,14 @@ class Product(models.Model):
         content_type = ContentType.objects.get_for_model(self.__class__)
         return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
 
+class References(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+
+    def __unicode__(self):
+        return self.title
+
 class Project(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
