@@ -117,6 +117,12 @@ class DDSA(models.Model):
     def __unicode__(self):
         return self.description
 
+    class Meta:
+        verbose_name="DSSA"
+        verbose_name_plural="DSSAs"
+
+
+
 class Technology(models.Model):
     api = models.ManyToManyField('API', verbose_name="API")
     description = models.TextField(blank=True)
