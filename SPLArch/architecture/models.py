@@ -109,6 +109,14 @@ class References(models.Model):
     def __unicode__(self):
         return self.title
 
+class DDSA(models.Model):
+    description = models.CharField(max_length=100)
+    references = models.ManyToManyField('References')
+    technology = models.ManyToManyField('Technology')
+
+    def __unicode__(self):
+        return self.description
+
 class Technology(models.Model):
     api = models.ManyToManyField('API', verbose_name="API")
     description = models.TextField(blank=True)
