@@ -5,8 +5,6 @@
     <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet"/>
-	
     {% block extrastyle %}{% endblock %}
 
     <!-- Le styles, placed after extrastyle to correctly override default styling -->
@@ -19,8 +17,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="{% static "admin/js/jquery-1.9.1.min.js" %}"><\/script>')</script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
-	
-
 
     {% block extrahead %}{% endblock %}
 
