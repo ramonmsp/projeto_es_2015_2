@@ -45,5 +45,51 @@ class Requirement(models.Model):
         return self.name
 
 
+class UseCase(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    precondition = models.TextField(max_length=200, blank=True,verbose_name="Pre-condition")
+    feature = models.ManyToManyField(Feature)
+    mainSteps = models.ManyToManyField('MainSteps', blank=True, symmetrical=False, related_name='mainsteps_funcspec')
+    owner = models.ManyToManyField(User, blank=False, symmetrical=False, related_name='owner_funcspec')
+    alternativeSteps = models.ManyToManyField('AlternativeSteps', blank=True, symmetrical=False, related_name='alternativesteps_funcspec')
 
+    def __unicode__(self):
+        return self.title
+    def get_admin_url(self):
+        content_type = ContentType.objects.get_for_model(self.__class__)
+        return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
+
+    @staticmethod
+    def getReport(product=None):
+        if(product):
+            mycontext = {'usecases': UseCase.objects.filter(feature__in=product.features.all),
+                         'product_name': product.name,
+                   'autoescape': False}
+        else:
+            mycontext = {'usecases': UseCase.objects.all,
+                         'product_name': "All products",
+                    'autoescape': False}
+
+        return render_to_latex("admin/fur/usecase/report_usecase.tex",mycontext)
+
+class MainSteps(models.Model):    
+    use_case = models.ForeignKey(UseCase)
+    user_action = models.TextField()
+    system_response = models.TextField()
+    def get_admin_url(self):
+        content_type = ContentType.objects.get_for_model(self.__class__)
+        return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
+    def __unicode__(self):
+        return "Main Step"
+
+class AlternativeSteps(models.Model):    
+    use_case = models.ForeignKey(UseCase)
+    user_action = models.TextField()
+    system_response = models.TextField()
+    def get_admin_url(self):
+        content_type = ContentType.objects.get_for_model(self.__class__)
+        return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
+    def __unicode__(self):
+        return "Alternative Step"
 
