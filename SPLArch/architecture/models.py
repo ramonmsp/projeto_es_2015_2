@@ -4,6 +4,7 @@ from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 from SPLArch.architecture.util import render_to_latex
 from SPLArch.scoping.models import *
+from SPLArch.requirement.models import *
 
 
 
@@ -16,9 +17,11 @@ class References(models.Model):
         return self.title
 
 class DDSA(models.Model):
+    name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     references = models.ManyToManyField('References')
     technology = models.ManyToManyField('Technology')
+    scenarios = models.ManyToManyField('AddScenarios')
 
     def __unicode__(self):
         return self.description
@@ -27,7 +30,31 @@ class DDSA(models.Model):
         verbose_name="DSSA"
         verbose_name_plural="DSSAs"
 
+class Scenarios(models.Model):
+    name = models.CharField(max_length=100)
+    stimulus = models.TextField(blank=True)
+    response = models.TextField(blank=True)
+    strategy = models.TextField(blank=True)
+    feature = models.ManyToManyField(Feature)
+    nf_requirement = models.ManyToManyField(Requirement)
 
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name="Scenario Detail"
+
+class AddScenarios(models.Model):
+    name = models.CharField(max_length=100)
+    nf_requirement = models.ManyToManyField(Requirement)
+    scenario = models.ManyToManyField(Scenarios)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name="Quality Scenario"
+        verbose_name_plural="Quality Scenarios"
 
 class Technology(models.Model):
     api = models.ManyToManyField('API', verbose_name="API")
