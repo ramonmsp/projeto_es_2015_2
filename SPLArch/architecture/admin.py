@@ -4,7 +4,11 @@ from SPLArch.scoping.models import *
 from django.forms import TextInput, Textarea
 from django.db import models
 from django.contrib.sites.models import Site
-
+from django.http import HttpResponse
+from django.utils.encoding import force_unicode
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.utils.translation import ugettext as _
 
 class TechnologyAdmin(admin.ModelAdmin):
     fields = ['api', 'description',]
@@ -54,6 +58,30 @@ class UseCaseAdmin(admin.ModelAdmin):
         extra_context = extra_context or {}
         extra_context['has_report'] = True
         return super(UseCaseAdmin, self).changelist_view(request, extra_context=extra_context)
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        opts = self.model._meta
+        if not request.REQUEST.has_key("_change"):
+            if request.REQUEST.has_key("_report"):
+                body = UseCase.getReport()
+                resp = HttpResponse(body, mimetype='application/pdf')
+                resp['Content-Disposition'] = 'attachment; filename=usecase_report.pdf'
+                return resp
+            else:
+                use_case = UseCase.objects.get(id=object_id)
+                context = {
+                    'use_case': use_case,
+                    'title': _('Use Case: %s') % force_unicode(use_case.title),
+                    'opts': opts,
+                    'object_id': object_id,
+                    'is_popup': request.REQUEST.has_key('_popup'),
+                    'app_label': opts.app_label,
+                    }
+                return render_to_response('admin/fur/usecase/view.html',
+                                          context,
+                                          context_instance=RequestContext(request))
+        return super(UseCaseAdmin, self).change_view(request, object_id,
+            form_url, extra_context=None)
 
 
 class ArchitectureAdmin(admin.ModelAdmin):

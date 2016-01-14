@@ -93,8 +93,8 @@ class ProductAdmin(admin.ModelAdmin):
                 usecase_zip_path = os.path.join(zip_subdir, product.name+ "_usecase_report.pdf")
                 feature_zip_path = os.path.join(zip_subdir, product.name+ "_features_report.pdf")
                 glossary_zip_path = os.path.join(zip_subdir, product.name+ "_glossary_report.pdf")
-                testCase_zip_path = os.path.join(zip_subdir, product.name+ "_testCase_report.pdf")
-                userStory_zip_path = os.path.join(zip_subdir, product.name+ "_userStory_report.pdf")
+                #testCase_zip_path = os.path.join(zip_subdir, product.name+ "_testCase_report.pdf")
+                #userStory_zip_path = os.path.join(zip_subdir, product.name+ "_userStory_report.pdf")
 
                 # Add file, at correct path
                 zf.write(usecaseTemp.name, usecase_zip_path)
