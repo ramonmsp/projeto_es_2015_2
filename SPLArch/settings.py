@@ -126,6 +126,8 @@ INSTALLED_APPS = (
     'mptt',
     'mptttreewidget',
     'SPLArch.architecture',
+    'SPLArch.requirement',
+    'SPLArch.scoping',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 

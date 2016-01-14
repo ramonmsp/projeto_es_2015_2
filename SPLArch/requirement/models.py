@@ -6,6 +6,26 @@ from django.contrib.contenttypes.models import ContentType
 from SPLArch.architecture.util import render_to_latex
 from SPLArch.architecture.models import Feature
 
+
+STATUS_REQUIREMENT_CHOICES = (
+    ('proposed', 'Proposed'),
+    ('approved', 'Approved'),
+    ('implemented', 'Implemented'),
+    ('verified', 'Verified'),
+    ('deferred', 'Deferred'),
+    ('deleted', 'Deleted'),
+    ('rejected', 'Rejected'),
+)
+
+PRIORITY = (
+    ('no-priority', 'No Priority'),
+    ('low', 'Low'),
+    ('medium', 'Medium'),
+    ('high', 'High'),
+    ('very-high', 'Very High'),
+    ('Urgent', 'Urgent'),
+)
+
 class RequirementType(models.Model):
     name = models.CharField(max_length=200)
     def __unicode__(self):
@@ -27,21 +47,3 @@ class Requirement(models.Model):
 
 
 
-STATUS_REQUIREMENT_CHOICES = (
-    ('proposed', 'Proposed'),
-    ('approved', 'Approved'),
-    ('implemented', 'Implemented'),
-    ('verified', 'Verified'),
-    ('deferred', 'Deferred'),
-    ('deleted', 'Deleted'),
-    ('rejected', 'Rejected'),
-)
-
-PRIORITY = (
-    ('no-priority', 'No Priority'),
-    ('low', 'Low'),
-    ('medium', 'Medium'),
-    ('high', 'High'),
-    ('very-high', 'Very High'),
-    ('Urgent', 'Urgent'),
-)
