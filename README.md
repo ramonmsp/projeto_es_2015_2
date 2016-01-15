@@ -41,6 +41,6 @@ Requirements
   * miktex 2.9 (http://miktex.org/download) or texlive (https://www.tug.org/texlive/)
 
 Contributors
----------------------------
+---------------------------Miranda
 
-Crescencio Lima @cretchas, Cremildo Lima @juin, Airton Ribeiro @niwdm, Joabe Pinheiro @joabepinheiro, Fagner Santos @fagnerpsantos, Randler @randler, Ramon @ramonmsp, Cátia Oliveira, Mateus, Leonardo Aguiar @leonardaguiar, Italo @italo-miranda
+Crescencio Lima @cretchas, Cremildo Lima @juin, Airton Ribeiro @niwdm, Joabe Pinheiro @joabepinheiro, Fagner Santos @fagnerpsantos, Randler @randler, Ramon @ramonmsp, Cátia Oliveira, Mateus, Leonardo Aguiar @leonardaguiar, Italo Miranda @italo-miranda
