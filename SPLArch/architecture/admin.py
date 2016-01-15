@@ -90,6 +90,13 @@ class ArchitectureAdmin(admin.ModelAdmin):
     def __unicode__(self):
         return '%s' % self.nome
 
+
+class ScenariosAdmin(admin.ModelAdmin):
+      filter_horizontal = ("nf_requirement", "feature")
+
+class AddScenariosAdmin(admin.ModelAdmin):
+    filter_horizontal = ("nf_requirement", "scenario")
+
 '''
     def change_view(self, request, object_id, form_url='', extra_context=None):
         opts = self.model._meta
@@ -255,6 +262,6 @@ admin.site.register(Technology, TechnologyAdmin)
 admin.site.register(API)
 admin.site.register(Architecture)
 admin.site.register(DDSA)
-admin.site.register(AddScenarios)
-admin.site.register(Scenarios)
+admin.site.register(AddScenarios, AddScenariosAdmin)
+admin.site.register(Scenarios, ScenariosAdmin)
 admin.site.unregister(Architecture)
