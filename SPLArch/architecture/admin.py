@@ -10,6 +10,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
+class TechnologyAdmin(admin.ModelAdmin):
+    fields = ['api', 'description',]
+    filter_horizontal = ("api",)
+
 class UseCaseMainStepsAdminInline(admin.TabularInline):
     model = MainSteps
     verbose_name_plural = 'Main Steps'
@@ -90,8 +94,6 @@ class ArchitectureAdmin(admin.ModelAdmin):
 class ScenariosAdmin(admin.ModelAdmin):
       filter_horizontal = ("nf_requirement", "feature")
 
-class TechnologyAdmin(admin.ModelAdmin):
-    filter_horizontal = ("api", "description")
 
 class AddScenariosAdmin(admin.ModelAdmin):
     filter_horizontal = ("nf_requirement", "scenario")
