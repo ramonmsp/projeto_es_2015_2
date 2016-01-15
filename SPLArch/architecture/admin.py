@@ -94,6 +94,9 @@ class ArchitectureAdmin(admin.ModelAdmin):
 class ScenariosAdmin(admin.ModelAdmin):
       filter_horizontal = ("nf_requirement", "feature")
 
+class DSSAAdmin(admin.ModelAdmin):
+    fields = ["name", "description", "references", "technology", "scenarios",]
+    filter_horizontal = ("references", "technology", "scenarios",)
 
 class AddScenariosAdmin(admin.ModelAdmin):
     filter_horizontal = ("nf_requirement", "scenario")
@@ -262,7 +265,7 @@ admin.site.register(References)
 admin.site.register(Technology, TechnologyAdmin)
 admin.site.register(API)
 admin.site.register(Architecture)
-admin.site.register(DDSA)
+admin.site.register(DDSA, DSSAAdmin)
 admin.site.register(AddScenarios, AddScenariosAdmin)
 admin.site.register(Scenarios, ScenariosAdmin)
 admin.site.unregister(Architecture)
