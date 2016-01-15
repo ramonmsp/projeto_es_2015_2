@@ -38,7 +38,7 @@ Requirements
   * reportlab	2.6
   * setuptools	16.0
   * six	1.10.0
-
+  * miktex 2.9 (http://miktex.org/download)
 
 Contributors
 ---------------------------
