@@ -73,7 +73,7 @@ class UseCase(models.Model):
 
         return render_to_latex("admin/fur/usecase/report_usecase.tex",mycontext)
 
-class MainSteps(models.Model):    
+class MainSteps(models.Model):
     use_case = models.ForeignKey(UseCase)
     user_action = models.TextField()
     system_response = models.TextField()
@@ -83,7 +83,7 @@ class MainSteps(models.Model):
     def __unicode__(self):
         return "Main Step"
 
-class AlternativeSteps(models.Model):    
+class AlternativeSteps(models.Model):
     use_case = models.ForeignKey(UseCase)
     user_action = models.TextField()
     system_response = models.TextField()
