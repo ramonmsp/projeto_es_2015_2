@@ -92,12 +92,13 @@ class Glossary(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, blank=False)
     description = models.TextField(blank=True)
     features = models.ManyToManyField('Feature', blank=True, symmetrical=False)
 
     def __unicode__(self):
         return self.name
+
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
         return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
