@@ -59,23 +59,21 @@ class ProductAdmin(admin.ModelAdmin):
                 glossaryTemp.write(glossary)
                 glossaryTemp.close()
 
-                #Test Case
-                #testCase = TestCase.getReport(Product.objects.get(id=object_id))
-               # testCaseTemp = NamedTemporaryFile()
-               # testCaseTemp.close()
-               # testCaseTemp = codecs.open(testCaseTemp.name,'wb')
-               #testCaseTemp.write(testCase)
-                #testCaseTemp.close()
+                #API
+                api = API.getReport(Product.objects.get(id=object_id))
+                apisTemp = NamedTemporaryFile()
+                apisTemp.close()
+                apisTemp = codecs.open(apisTemp.name,'wb')
+                apisTemp.write(api)
+                apisTemp.close()
 
-
-                #User story
-                #userStory = UserStory.getReport(Product.objects.get(id=object_id))
-                #userStoryTemp = NamedTemporaryFile()
-                #userStoryTemp.close()
-                #userStoryTemp = codecs.open(userStoryTemp.name,'wb')
-                #userStoryTemp.write(userStory)
-                #userStoryTemp.close()
-
+                #References
+                references = References.getReport(Product.objects.get(id=object_id))
+                referencesTemp = NamedTemporaryFile()
+                referencesTemp.close()
+                referencesTemp = codecs.open(referencesTemp.name,'wb')
+                referencesTemp.write(references)
+                referencesTemp.close()
 
                 # Folder name in ZIP archive which contains the above files
                 # E.g [thearchive.zip]/somefiles/file2.txt
@@ -90,18 +88,18 @@ class ProductAdmin(admin.ModelAdmin):
                 zf = zipfile.ZipFile(s, "w")
 
                 # Calculate path for file in zip
-                usecase_zip_path = os.path.join(zip_subdir, product.name+ "_usecase_report.pdf")
-                feature_zip_path = os.path.join(zip_subdir, product.name+ "_features_report.pdf")
-                glossary_zip_path = os.path.join(zip_subdir, product.name+ "_glossary_report.pdf")
-                #testCase_zip_path = os.path.join(zip_subdir, product.name+ "_testCase_report.pdf")
-                #userStory_zip_path = os.path.join(zip_subdir, product.name+ "_userStory_report.pdf")
+                usecase_zip_path = os.path.join(zip_subdir, product.name+"_usecase_report.pdf")
+                feature_zip_path = os.path.join(zip_subdir, product.name+"_features_report.pdf")
+                glossary_zip_path = os.path.join(zip_subdir, product.name+"_glossary_report.pdf")
+                apis_zip_path = os.path.join(zip_subdir, product.name+"_apis_report.pdf")
+                references_zip_path = os.path.join(zip_subdir, product.name+"_references_report.pdf")
 
                 # Add file, at correct path
                 zf.write(usecaseTemp.name, usecase_zip_path)
                 zf.write(featuresTemp.name, feature_zip_path)
                 zf.write(glossaryTemp.name, glossary_zip_path)
-                #zf.write(testCaseTemp.name, testCase_zip_path)
-                #zf.write(userStoryTemp.name, userStory_zip_path)
+                zf.write(apisTemp.name, apis_zip_path)
+                zf.write(referencesTemp.name, references_zip_path)
 
                 # Must close zip for all contents to be written
                 zf.close()
@@ -251,6 +249,7 @@ class ProjectAdmin(admin.ModelAdmin):
                 glossaryTemp.write(glossary)
                 glossaryTemp.close()
 
+
                 #Test Case
                 #testCase = TestCase.getReport(Product.objects.get(id=object_id))
                # testCaseTemp = NamedTemporaryFile()
@@ -272,7 +271,7 @@ class ProjectAdmin(admin.ModelAdmin):
                 # Folder name in ZIP archive which contains the above files
                 # E.g [thearchive.zip]/somefiles/file2.txt
                 # FIXME: Set this to something better
-                zip_subdir = product.name.replace(" ", "_")+"_artifacs"
+                zip_subdir = project.name.replace(" ", "_")+"_artifacs"
                 zip_filename = "%s.zip" % zip_subdir
 
                 # Open StringIO to grab in-memory ZIP contents
@@ -316,8 +315,7 @@ class ProjectAdmin(admin.ModelAdmin):
                 return render_to_response('admin/fur/project/view.html',
                                           context,
                                           context_instance=RequestContext(request))
-        return super(Project, self).change_view(request, object_id,
-            form_url, extra_context=None)
+        return super(Project, self).change_view(request, object_id, form_url, extra_context=None)
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Feature, FeatureAdmin)

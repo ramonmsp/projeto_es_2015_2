@@ -46,6 +46,7 @@ class Feature(MPTTModel):
 
     def __unicode__(self):
         return "#" + str(self.id) + " "  + self.name
+
     class MPTTMeta:
         order_insertion_by = ['name']
     def get_admin_url(self):

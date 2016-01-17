@@ -10,6 +10,70 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
+
+class ApiAdmin(admin.ModelAdmin):
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['has_report'] = True
+        return super(ApiAdmin, self).changelist_view(request, extra_context=extra_context)
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        opts = self.model._meta
+        if not request.REQUEST.has_key("_change"):
+            if request.REQUEST.has_key("_report"):
+                body = API.getReport()
+                resp = HttpResponse(body, mimetype='application/pdf')
+                resp['Content-Disposition'] = 'attachment; filename=api_report.pdf'
+                return resp
+            else:
+                api = API.objects.get(id=object_id)
+                context = {
+                    'api': api,
+                    'title': _('API: %s') % force_unicode(api.name),
+                    'opts': opts,
+                    'object_id': object_id,
+                    'is_popup': request.REQUEST.has_key('_popup'),
+                    'app_label': opts.app_label,
+                    }
+                return render_to_response('admin/fur/api/view.html',
+                                          context,
+                                          context_instance=RequestContext(request))
+        return super(ApiAdmin, self).change_view(request, object_id,
+            form_url, extra_context=None)
+
+class ReferencesAdmin(admin.ModelAdmin):
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['has_report'] = True
+        return super(ReferencesAdmin, self).changelist_view(request, extra_context=extra_context)
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        opts = self.model._meta
+        if not request.REQUEST.has_key("_change"):
+            if request.REQUEST.has_key("_report"):
+                body = References.getReport()
+                resp = HttpResponse(body, mimetype='application/pdf')
+                resp['Content-Disposition'] = 'attachment; filename=references_report.pdf'
+                return resp
+            else:
+                references = References.objects.get(id=object_id)
+                context = {
+                    'references': references,
+                    'title': _('References: %s') % force_unicode(references.title),
+                    'opts': opts,
+                    'object_id': object_id,
+                    'is_popup': request.REQUEST.has_key('_popup'),
+                    'app_label': opts.app_label,
+                    }
+                return render_to_response('admin/fur/references/view.html',
+                                          context,
+                                          context_instance=RequestContext(request))
+        return super(ReferencesAdmin, self).change_view(request, object_id,
+            form_url, extra_context=None)
+
+
 class TechnologyAdmin(admin.ModelAdmin):
     fields = ['api', 'description',]
     filter_horizontal = ("api",)
@@ -261,9 +325,9 @@ admin.site.register(AcceptanceTest, AcceptanceTestAdmin)
 admin.site.register(AcceptanceTestExecution, AcceptanceTestExecutionAdmin)
 '''
 
-admin.site.register(References)
+admin.site.register(References, ReferencesAdmin)
 admin.site.register(Technology, TechnologyAdmin)
-admin.site.register(API)
+admin.site.register(API,  ApiAdmin)
 admin.site.register(Architecture)
 admin.site.register(DDSA, DSSAAdmin)
 admin.site.register(AddScenarios, AddScenariosAdmin)

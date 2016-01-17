@@ -16,6 +16,20 @@ class References(models.Model):
     def __unicode__(self):
         return self.title
 
+    @staticmethod
+    def getReport(product=None):
+        if(product):
+            mycontext = {'references': References.objects.all,
+                         'product_name': product.name,
+                         'autoescape': False}
+        else:
+            mycontext = {'references': References.objects.all,
+                         'product_name': "All products",
+                         'autoescape': False}
+
+        return render_to_latex("admin/fur/references/report_references.tex",mycontext)
+
+
 class DDSA(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)

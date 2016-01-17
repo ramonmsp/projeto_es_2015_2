@@ -5,6 +5,8 @@ from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 from SPLArch.architecture.util import render_to_latex
 from SPLArch.architecture.models import *
+from SPLArch.requirement.models import *
+from SPLArch.scoping.models import *
 
 
 STATUS_REQUIREMENT_CHOICES = (
@@ -49,7 +51,7 @@ class UseCase(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     precondition = models.TextField(max_length=200, blank=True,verbose_name="Pre-condition")
-    feature = models.ManyToManyField(Feature)
+    feature = models.ManyToManyField(Feature, blank=True, symmetrical=False)
     mainSteps = models.ManyToManyField('MainSteps', blank=True, symmetrical=False, related_name='mainsteps_funcspec')
     owner = models.ManyToManyField(User, blank=False, symmetrical=False, related_name='owner_funcspec')
     alternativeSteps = models.ManyToManyField('AlternativeSteps', blank=True, symmetrical=False, related_name='alternativesteps_funcspec')

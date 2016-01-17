@@ -18,8 +18,6 @@ class LoginTestCase(TestCase):
     def test_response(self):
         response = self.client.get('/admin/login/')
         self.assertEqual(response.status_code,  200)
-        print response.status_code
-
 
 class ProductTestCase(TestCase):
 
@@ -31,6 +29,9 @@ class ProductTestCase(TestCase):
         self.product1.save()
 
         self.model = self.product1
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.product1), self.product1.name)
 
     def test_response(self):
         url = reverse("admin:%s_%s_add" % (self.model._meta.app_label, self.model._meta.module_name))
@@ -53,13 +54,15 @@ class ProductTestCase(TestCase):
         response = self.client.get(url, follow = True)
         self.assertEqual(response.status_code,  200)
 
-
 class ProjectTestCase(TestCase):
 
     def setUp(self):
-        self.project1 = Project.objects.create()
+        self.project1 = Project.objects.create(name="Splarch")
         self.project1.save()
         self.model = self.project1
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.project1), self.project1 .name)
 
     def test_response(self):
         url = reverse("admin:%s_%s_add" % (self.model._meta.app_label, self.model._meta.module_name))
@@ -85,9 +88,12 @@ class ProjectTestCase(TestCase):
 class GlossaryTestCase(TestCase):
 
      def setUp(self):
-        self.glossary1 = Project.objects.create()
+        self.glossary1 = Glossary.objects.create()
         self.glossary1.save()
         self.model = self.glossary1
+
+     def test_string_representation(self):
+        self.assertEqual(str(self.model), self.model.term)
 
      def test_response(self):
         url = reverse("admin:%s_%s_add" % (self.model._meta.app_label, self.model._meta.module_name))
@@ -124,6 +130,9 @@ class FeatureTestCase(TestCase):
         self.feature1.save()
         self.model = self.feature1
 
+    def test_string_representation(self):
+        self.assertEqual(str(self.model), "#" +str(self.feature1.id)+" "+self.feature1.name)
+
     def test_response(self):
         url = reverse("admin:%s_%s_add" % (self.model._meta.app_label, self.model._meta.module_name))
         response = self.client.get(url, follow = True)
@@ -147,12 +156,15 @@ class FeatureTestCase(TestCase):
 
 class BindingTimeTestCase(TestCase):
 
-     def setUp(self):
+    def setUp(self):
         self.binding_time1 = BindingTime.objects.create(name='', description='')
         self.binding_time1.save()
         self.model = self.binding_time1
 
-     def test_response(self):
+    def test_string_representation(self):
+        self.assertEqual(str(self.model), self.model.name)
+
+    def test_response(self):
         url = reverse("admin:%s_%s_add" % (self.model._meta.app_label, self.model._meta.module_name))
         response = self.client.get(url, follow = True)
         self.assertEqual(response.status_code,  200)

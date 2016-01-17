@@ -42,64 +42,15 @@
 <div class="module">
 <table class="table table-striped table-bordered">
 	<tr>
-		<td><b>Title:</b></td> <td>{{use_case.title}}</td>
+		<td><b>Name:</b></td> <td>{{api.name}}</td>
 	</tr>
-	<tr>
-		<td><b>Description:</b></td> <td>{{use_case.description}}</td>
-	</tr>
-	<tr>
-		<td><b>Owner:</b></td>
-		<td>
-		    {% for owner in use_case.owner.all %}
 
-		 <ul style="list-style: none">
-             <li>
-                    <a href="{{ owner.get_admin_url }}">   {{ owner.username }}</a>
-             </li>
-         </ul>
-		    {% endfor %}
-		</td>
-		
-	</tr>
-	
-	<Tr>
-		<td><b>Related Features:</b></td>
-		<td>
-		    {% for feature in use_case.feature.all %}
-		 <ul><a href="{{ feature.get_admin_url }}">{{ feature.name }}</a></ul>
-		    {% endfor %}
-		</td>
-	</tr>
-	
 	<tr>
-		<td><b>Main Steps:</b></td> 
-		<td>
-		    {% for step in use_case.mainsteps_set.all %}
-		 <ul><b>User action :</b> {{ step.user_action }} </br> <b>System response :</b> {{ step.system_response }}</ul>
-		    {% endfor %}
-		</td>
+		<td><b>Version:</b></td> <td>{{api.version}}</td>
 	</tr>
-		<tr>
-		<td><b>Alternative Steps:</b></td> 
-		<td>
-		    {% for step in use_case.alternativesteps_set.all %}
-		 <ul><b>User action :</b> {{ step.user_action }} </br> <b>System response :</b> {{ step.system_response }}</ul>
-		    {% endfor %}
-		</td>
+    <tr>
+		<td><b>Specification:</b></td> <td>{{api.specification}}</td>
 	</tr>
-	
-		<tr>
-        <!--
-		<td><b>Test Cases related to this Use case:</b></td> 
-		<td>
-		    {% for test in use_case.testcase_set.all %}
-		 <ul><a href="{{ test.get_admin_url }}">{{ test.title }}</a></ul>
-		    {% endfor %}
-		</td>
-		-->
-	</tr>
-	
-
 </table> 
 </div>
 {% endblock %}
