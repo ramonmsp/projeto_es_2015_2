@@ -4,7 +4,7 @@ from django.contrib.auth.models import *
 from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 from SPLArch.architecture.util import render_to_latex
-from SPLArch.architecture.models import Feature
+from SPLArch.architecture.models import *
 
 
 STATUS_REQUIREMENT_CHOICES = (

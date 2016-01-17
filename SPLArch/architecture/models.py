@@ -79,6 +79,18 @@ class API(models.Model):
         verbose_name="API"
         verbose_name_plural="APIs"
 
+    @staticmethod
+    def getReport(product=None):
+        if(product):
+            mycontext = {'api': API.objects.all,
+                         'product_name': product.name,
+                   'autoescape': False}
+        else:
+            mycontext = {'api': API.objects.all,
+                         'product_name': "All products",
+                    'autoescape': False}
+
+        return render_to_latex("admin/fur/api/report_api.tex",mycontext)
 
 class Meta:
        app_label = 'Tasks'

@@ -1,5 +1,3 @@
-# Django settings for splice project.
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
