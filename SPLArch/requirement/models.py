@@ -38,8 +38,8 @@ class Requirement(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     observations = models.TextField(blank=True)
-    status_requirement_choices = models.CharField( max_length=200, choices=STATUS_REQUIREMENT_CHOICES, verbose_name='Status')
-    requirement_type =models.ForeignKey('RequirementType')
+    status_requirement_choices = models.CharField(max_length=200, choices=STATUS_REQUIREMENT_CHOICES, verbose_name='Status')
+    requirement_type = models.ForeignKey('RequirementType')
     feature = models.ManyToManyField(Feature)
     priority = models.CharField(max_length=20, choices=PRIORITY)
 

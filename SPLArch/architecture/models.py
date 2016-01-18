@@ -38,7 +38,7 @@ class DDSA(models.Model):
     scenarios = models.ManyToManyField('AddScenarios')
 
     def __unicode__(self):
-        return self.description
+        return self.name
 
     class Meta:
         verbose_name="DSSA"
