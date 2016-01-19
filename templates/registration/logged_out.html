@@ -1,9 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_static %}
 {% load url from future %}
-
 {% block nav-global %}{% endblock %}
-
 {% block navbar %}{% endblock %}
 {% block breadcrumbs %}{% endblock %}
 {% block extrastyle %}
@@ -59,14 +57,14 @@ body{
 }
 
 
-.form-signin-inner h2{
+ h2{
     color: #259dab;
     text-align: center;
     margin: 0;
     font-weight: 500;
 }
 
-.form-signin-inner h3{
+h3{
     font-family: "Open Sans", sans-serif;
     text-align: center;
     color: #fff;
@@ -164,60 +162,19 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 </script>
 
 <div id="content-main">
-<form class="form-signin form-horizontal" action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
-  <div class="form-signin-inner">
-  {% blocktrans %}
-      <h2>Splice</h2>
- <h3> Welcome! Please signin.</h3>
-  {% endblocktrans %}
-  {% if form.errors and not form.non_field_errors and not form.this_is_the_login_form.errors %}
-    <div class="alert alert-error">
-       {% blocktrans count counter=form.errors.items|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
-    </div>
-  {% endif %}
-  {% if form.non_field_errors or form.this_is_the_login_form.errors %}
-    {% for error in form.non_field_errors|add:form.this_is_the_login_form.errors %}
-    <div class="alert alert-error">
-      {{ error }}
-    </div>
-    {% endfor %}
-  {% endif %}
-  <div class="control-group">
-    <div class="controls">
-        <i class="fa fa-user"></i>
-        {{ form.username }}
-        {% if not form.this_is_the_login_form.errors %}<span class="help-inline">{{ form.username.errors|striptags }}</span>{% endif %}
-    </div>
-  </div>
-  <div class="control-group">
-    <div class="controls">
-        <i class="fa fa-unlock-alt"></i>
-        {{ form.password }}
-        {% if not form.this_is_the_login_form.errors %}<span class="help-inline">{{ form.password.errors|striptags }}</span>{% endif %}
-    </div>
-  </div>
+    <h2>Splice</h2>
+    <h3> Thanks for spending some quality time with the Web site today.</h3>
+    <p style="text-align: center"><a href="{% url 'admin:index' %}" class="btn">{% trans 'Log in again' %}</a></p>
 
-   <input type="hidden" name="this_is_the_login_form" value="1" />
-    <input type="hidden" name="next" value="{{ next }}" />
-
-  {% url 'admin_password_reset' as password_reset_url %}
-  {% if password_reset_url %}
-  <div class="control-group">
-    <div class="controls">
-        <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
-    </div>
-  </div>
-  {% endif %}
-  </div>
-  <div class="form-actions">
-    <input type="submit" value="{% trans 'Log in' %}" class="btn btn-primary" />
-  </div>
-</form>
-
-<script type="text/javascript">
-$(document).ready(function() {
-  $('#id_username').attr('autocapitalize', 'off').focus();
-})
-</script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $('#id_username').attr('autocapitalize', 'off').focus();
+    })
+    </script>
 </div>
 {% endblock %}
+
+
+
+
+
