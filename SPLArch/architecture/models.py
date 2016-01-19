@@ -60,7 +60,7 @@ class Scenarios(models.Model):
 
 class AddScenarios(models.Model):
     name = models.CharField(max_length=100)
-    nf_requirement = models.ManyToManyField(Requirement)
+    nf_requirement = models.ManyToManyField(Requirement, related_name="requisito funcional 1")
     scenario = models.ManyToManyField(Scenarios)
 
     def __unicode__(self):

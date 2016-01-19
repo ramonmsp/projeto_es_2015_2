@@ -20,6 +20,7 @@ class RequirementAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40,'class':'vLargeTextField',})},
     }
+    list_display = ('name', 'requirement_type', 'priority')
     list_filter = ('feature',)
 
 class RequirementTypeAdmin(admin.ModelAdmin):

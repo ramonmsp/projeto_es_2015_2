@@ -304,6 +304,9 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     width: 100%;
 }
 
+.alert-info ul{
+    margin: 0;
+}
 
 @media (max-width: 979px){
 
