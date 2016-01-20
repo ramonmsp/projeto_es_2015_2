@@ -44,7 +44,7 @@ class ProductAdmin(admin.ModelAdmin):
                 usecaseTemp.close()
 
                 #Feature
-                features = Feature.getReport(Product.objects.get(id=object_id))
+                features = Feature.getReport(product)
                 featuresTemp = NamedTemporaryFile()
                 featuresTemp.close()
                 featuresTemp = codecs.open(featuresTemp.name,'wb')
@@ -52,7 +52,7 @@ class ProductAdmin(admin.ModelAdmin):
                 featuresTemp.close()
 
                 #Glossary
-                glossary = Glossary.getReport(Product.objects.get(id=object_id))
+                glossary = Glossary.getReport(product)
                 glossaryTemp = NamedTemporaryFile()
                 glossaryTemp.close()
                 glossaryTemp = codecs.open(glossaryTemp.name,'wb')
@@ -60,7 +60,7 @@ class ProductAdmin(admin.ModelAdmin):
                 glossaryTemp.close()
 
                 #API
-                api = API.getReport(Product.objects.get(id=object_id))
+                api = API.getReport(product)
                 apisTemp = NamedTemporaryFile()
                 apisTemp.close()
                 apisTemp = codecs.open(apisTemp.name,'wb')
@@ -68,7 +68,7 @@ class ProductAdmin(admin.ModelAdmin):
                 apisTemp.close()
 
                 #References
-                references = References.getReport(Product.objects.get(id=object_id))
+                references = References.getReport(product)
                 referencesTemp = NamedTemporaryFile()
                 referencesTemp.close()
                 referencesTemp = codecs.open(referencesTemp.name,'wb')
@@ -225,48 +225,7 @@ class ProjectAdmin(admin.ModelAdmin):
         if not request.REQUEST.has_key("_change"):
             if request.REQUEST.has_key("_zipreport"):
                 project = Project.objects.get(id=object_id)
-                #use case
-                usecase = UseCase.getReport(Product)
-                usecaseTemp = NamedTemporaryFile()
-                usecaseTemp.close()
-                usecaseTemp = codecs.open(usecaseTemp.name,'wb')
-                usecaseTemp.write(usecase)
-                usecaseTemp.close()
-
-                #Feature
-                features = Feature.getReport(Project.objects.get(id=object_id))
-                featuresTemp = NamedTemporaryFile()
-                featuresTemp.close()
-                featuresTemp = codecs.open(featuresTemp.name,'wb')
-                featuresTemp.write(features)
-                featuresTemp.close()
-
-                #Glossary
-                glossary = Glossary.getReport(Project.objects.get(id=object_id))
-                glossaryTemp = NamedTemporaryFile()
-                glossaryTemp.close()
-                glossaryTemp = codecs.open(glossaryTemp.name,'wb')
-                glossaryTemp.write(glossary)
-                glossaryTemp.close()
-
-
-                #Test Case
-                #testCase = TestCase.getReport(Product.objects.get(id=object_id))
-               # testCaseTemp = NamedTemporaryFile()
-               # testCaseTemp.close()
-               # testCaseTemp = codecs.open(testCaseTemp.name,'wb')
-               #testCaseTemp.write(testCase)
-                #testCaseTemp.close()
-
-
-                #User story
-                #userStory = UserStory.getReport(Product.objects.get(id=object_id))
-                #userStoryTemp = NamedTemporaryFile()
-                #userStoryTemp.close()
-                #userStoryTemp = codecs.open(userStoryTemp.name,'wb')
-                #userStoryTemp.write(userStory)
-                #userStoryTemp.close()
-
+                products=project.product
 
                 # Folder name in ZIP archive which contains the above files
                 # E.g [thearchive.zip]/somefiles/file2.txt
@@ -280,19 +239,61 @@ class ProjectAdmin(admin.ModelAdmin):
                 # The zip compressor
                 zf = zipfile.ZipFile(s, "w")
 
-                # Calculate path for file in zip
-                usecase_zip_path = os.path.join(zip_subdir, project.name+ "_usecase_report.pdf")
-                feature_zip_path = os.path.join(zip_subdir, project.name+ "_features_report.pdf")
-                glossary_zip_path = os.path.join(zip_subdir, project.name+ "_glossary_report.pdf")
-                testCase_zip_path = os.path.join(zip_subdir, project.name+ "_testCase_report.pdf")
-                userStory_zip_path = os.path.join(zip_subdir, project.name+ "_userStory_report.pdf")
+                for product in products.iterator():
+                    #use case
+                    usecase = UseCase.getReport(product)
+                    usecaseTemp = NamedTemporaryFile()
+                    usecaseTemp.close()
+                    usecaseTemp = codecs.open(usecaseTemp.name,'wb')
+                    usecaseTemp.write(usecase)
+                    usecaseTemp.close()
 
-                # Add file, at correct path
-                zf.write(usecaseTemp.name, usecase_zip_path)
-                zf.write(featuresTemp.name, feature_zip_path)
-                zf.write(glossaryTemp.name, glossary_zip_path)
-                #zf.write(testCaseTemp.name, testCase_zip_path)
-                #zf.write(userStoryTemp.name, userStory_zip_path)
+                    #Feature
+                    features = Feature.getReport(product)
+                    featuresTemp = NamedTemporaryFile()
+                    featuresTemp.close()
+                    featuresTemp = codecs.open(featuresTemp.name,'wb')
+                    featuresTemp.write(features)
+                    featuresTemp.close()
+
+                    #Glossary
+                    glossary = Glossary.getReport(product)
+                    glossaryTemp = NamedTemporaryFile()
+                    glossaryTemp.close()
+                    glossaryTemp = codecs.open(glossaryTemp.name,'wb')
+                    glossaryTemp.write(glossary)
+                    glossaryTemp.close()
+
+                    #API
+                    api = API.getReport(product)
+                    apisTemp = NamedTemporaryFile()
+                    apisTemp.close()
+                    apisTemp = codecs.open(apisTemp.name,'wb')
+                    apisTemp.write(api)
+                    apisTemp.close()
+
+                    #References
+                    references = References.getReport(product)
+                    referencesTemp = NamedTemporaryFile()
+                    referencesTemp.close()
+                    referencesTemp = codecs.open(referencesTemp.name,'wb')
+                    referencesTemp.write(references)
+                    referencesTemp.close()
+
+                    # Calculate path for file in zip
+                    usecase_zip_path = os.path.join( product.name, product.name+"_usecase_report.pdf")
+                    feature_zip_path = os.path.join( product.name, product.name+"_features_report.pdf")
+
+                    glossary_zip_path = os.path.join( product.name, product.name+"_glossary_report.pdf")
+                    apis_zip_path = os.path.join( product.name, product.name+"_apis_report.pdf")
+                    references_zip_path = os.path.join( product.name, product.name+"_references_report.pdf")
+
+                    # Add file, at correct path
+                    zf.write(usecaseTemp.name, usecase_zip_path)
+                    zf.write(featuresTemp.name, feature_zip_path)
+                    zf.write(glossaryTemp.name, glossary_zip_path)
+                    zf.write(apisTemp.name, apis_zip_path)
+                    zf.write(referencesTemp.name, references_zip_path)
 
                 # Must close zip for all contents to be written
                 zf.close()
@@ -302,6 +303,7 @@ class ProjectAdmin(admin.ModelAdmin):
                 # ..and correct content-disposition
                 resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
                 return resp
+
             else:
                 project = Project.objects.get(id=object_id)
                 context = {
@@ -315,7 +317,8 @@ class ProjectAdmin(admin.ModelAdmin):
                 return render_to_response('admin/fur/project/view.html',
                                           context,
                                           context_instance=RequestContext(request))
-        return super(Project, self).change_view(request, object_id, form_url, extra_context=None)
+        return super(ProjectAdmin, self).change_view(request, object_id,
+            form_url, extra_context=None)
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Feature, FeatureAdmin)
