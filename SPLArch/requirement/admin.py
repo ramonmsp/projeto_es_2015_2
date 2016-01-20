@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.forms import Textarea
-from SPLArch.requirement.models import Requirement, RequirementType
+from SPLArch.requirement.models import*
 from django.db import models
 
 
@@ -22,6 +22,7 @@ class RequirementAdmin(admin.ModelAdmin):
     }
     list_display = ('name', 'requirement_type', 'priority')
     list_filter = ('feature',)
+
 
 class RequirementTypeAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):

@@ -111,17 +111,31 @@ class UseCaseAlternativeStepsAdminInline(admin.TabularInline):
         models.TextField: {'widget': Textarea(attrs={'rows': 4, 'cols': 40, 'class': 'vLargeTextField', })},
     }
 
+class UseCaseForm(forms.ModelForm):
+    class Meta:
+        model = UseCase
+
+    def __init__(self, *args, **kwargs):
+        super(UseCaseForm, self).__init__(*args, **kwargs)
+        wtf = Requirement.objects.filter(
+            requirement_type=RequirementType.objects.filter(name='Functional Requirements'));
+
+        w = self.fields['f_requirements'].widget
+        choices = []
+        for choice in wtf:
+            choices.append((choice.id, choice.name))
+        w.choices = choices
+
 
 class UseCaseAdmin(admin.ModelAdmin):
-    fields = ['title', 'description', 'owner', 'feature'
-        , 'precondition']
+    fields = ['title', 'description',  'f_requirements', 'owner', 'feature', 'precondition']
     inlines = [UseCaseMainStepsAdminInline, UseCaseAlternativeStepsAdminInline]
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows': 4, 'cols': 40, 'class': 'vLargeTextField', })},
     }
     list_filter = ('feature',)
-    filter_horizontal = ("feature", "owner")
-
+    filter_horizontal = ("feature", "owner", "f_requirements" )
+    form =  UseCaseForm
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['has_report'] = True

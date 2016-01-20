@@ -55,6 +55,7 @@ class UseCase(models.Model):
     mainSteps = models.ManyToManyField('MainSteps', blank=True, symmetrical=False, related_name='mainsteps_funcspec')
     owner = models.ManyToManyField(User, blank=False, symmetrical=False, related_name='owner_funcspec')
     alternativeSteps = models.ManyToManyField('AlternativeSteps', blank=True, symmetrical=False, related_name='alternativesteps_funcspec')
+    f_requirements = models.ManyToManyField(Requirement)
 
     def __unicode__(self):
         return self.title
