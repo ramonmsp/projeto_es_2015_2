@@ -14,5 +14,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url('^faq/', include('SPLArch.faq.urls'))
+    url('^faq/', include('SPLArch.faq.urls')),
+    url(r'^tour/', 'SPLArch.architecture.views.home')
+
 )
