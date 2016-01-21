@@ -309,6 +309,39 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     margin: 0;
 }
 
+
+
+/** FAQ **/
+
+
+#faq-topic-list ul,
+#faq-topic-list li{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#faq-topic-list .topic{
+    margin-bottom: 40px;
+}
+
+#faq-topic-list .topic-title:hover{
+    text-decoration: none;
+}
+
+#faq-topic-list .quetion-tile{
+    font-weight: bold;
+    padding: 5px 0 10px 0;
+}
+
+.title-faq{
+    padding: 5px 20px;
+}
+
+.question{
+    display: inline-block;
+    margin-bottom: 30px;
+}
 @media (max-width: 979px){
 
     .navbar-fixed-top{
