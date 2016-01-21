@@ -1,6 +1,7 @@
-from django.contrib import admin
+from SPLArch.architecture.forms import *
 from SPLArch.architecture.models import *
 from SPLArch.scoping.models import *
+from django.contrib import admin
 from django.forms import TextInput, Textarea
 from django.db import models
 from django.contrib.sites.models import Site
@@ -9,10 +10,11 @@ from django.utils.encoding import force_unicode
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
-from django import forms
 
 
 class ApiAdmin(admin.ModelAdmin):
+    form = ApiForm
+
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['has_report'] = True
@@ -44,6 +46,8 @@ class ApiAdmin(admin.ModelAdmin):
 
 
 class ReferencesAdmin(admin.ModelAdmin):
+    form = ReferencesForm
+
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['has_report'] = True
@@ -75,6 +79,7 @@ class ReferencesAdmin(admin.ModelAdmin):
 
 
 class TechnologyAdmin(admin.ModelAdmin):
+    form = TechnologyForm
     fields = ['api', 'description', ]
     filter_horizontal = ("api",)
 
@@ -111,31 +116,17 @@ class UseCaseAlternativeStepsAdminInline(admin.TabularInline):
         models.TextField: {'widget': Textarea(attrs={'rows': 4, 'cols': 40, 'class': 'vLargeTextField', })},
     }
 
-class UseCaseForm(forms.ModelForm):
-    class Meta:
-        model = UseCase
-
-    def __init__(self, *args, **kwargs):
-        super(UseCaseForm, self).__init__(*args, **kwargs)
-        wtf = Requirement.objects.filter(
-            requirement_type=RequirementType.objects.filter(name='Functional Requirements'));
-
-        w = self.fields['f_requirements'].widget
-        choices = []
-        for choice in wtf:
-            choices.append((choice.id, choice.name))
-        w.choices = choices
-
 
 class UseCaseAdmin(admin.ModelAdmin):
-    fields = ['title', 'description',  'f_requirements', 'owner', 'feature', 'precondition']
+    fields = ['title', 'description', 'f_requirements', 'owner', 'feature', 'precondition']
     inlines = [UseCaseMainStepsAdminInline, UseCaseAlternativeStepsAdminInline]
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows': 4, 'cols': 40, 'class': 'vLargeTextField', })},
     }
     list_filter = ('feature',)
     filter_horizontal = ("feature", "owner", "f_requirements" )
-    form =  UseCaseForm
+    form = UseCaseForm
+
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['has_report'] = True
@@ -167,40 +158,26 @@ class UseCaseAdmin(admin.ModelAdmin):
 
 
 class ArchitectureAdmin(admin.ModelAdmin):
-    model = Architecture
+    form = ArchitectureForm
 
     def __unicode__(self):
         return '%s' % self.nome
 
 
 class ScenariosAdmin(admin.ModelAdmin):
+    form = ScenariosForm
     filter_horizontal = ("nf_requirement", "feature")
 
 
 class DSSAAdmin(admin.ModelAdmin):
+    form = DSSAForm
     fields = ["name", "description", "references", "technology", "scenarios", ]
     filter_horizontal = ("references", "technology", "scenarios",)
 
 
-class AddScenariosForm(forms.ModelForm):
-    class Meta:
-        model = AddScenarios
-
-    def __init__(self, *args, **kwargs):
-        super(AddScenariosForm, self).__init__(*args, **kwargs)
-        wtf = Requirement.objects.filter(
-            requirement_type=RequirementType.objects.filter(name='Non-functional requirement'));
-        print  wtf
-        w = self.fields['nf_requirement'].widget
-        choices = []
-        for choice in wtf:
-            choices.append((choice.id, choice.name))
-        w.choices = choices
-
-
 class AddScenariosAdmin(admin.ModelAdmin):
-    filter_horizontal = ("nf_requirement",)
     form = AddScenariosForm
+    filter_horizontal = ("nf_requirement",)
 
 
 admin.site.unregister(Site)

@@ -1,10 +1,11 @@
+from SPLArch.scoping.models import *
+from SPLArch.requirement.models import *
 from django.db import models
 from django.contrib.auth.models import *
 from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 from SPLArch.architecture.util import render_to_latex
-from SPLArch.scoping.models import *
-from SPLArch.requirement.models import *
+
 
 
 

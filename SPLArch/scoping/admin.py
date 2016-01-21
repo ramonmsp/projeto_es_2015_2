@@ -1,5 +1,6 @@
-from django.contrib import admin
+from SPLArch.scoping.forms import *
 from SPLArch.architecture.models import *
+from django.contrib import admin
 from SPLArch.scoping.models import Feature, Product, Glossary, Project, BindingTime
 from SPLArch.requirement.models import *
 from django.forms import *
@@ -16,12 +17,6 @@ import zipfile
 import StringIO
 import codecs
 
-
-class ProductMapForm(ModelForm):
-    features = ModelMultipleChoiceField(required=False, queryset=Feature.objects.all(), widget=MpttTreeWidget)
-
-    class Meta:
-        model = Feature
 
 class ProductAdmin(admin.ModelAdmin):
     #fields = ['name', 'description','configuration']
@@ -146,6 +141,7 @@ class FeatureRequireAdminInline(admin.TabularInline):
 
 
 class FeatureAdmin(admin.ModelAdmin):
+    form = FeatureForm
     fields = ['name', 'description', 'type', 'variability'  , 'binding_time' , 'parent' , 'glossary', ]
     inlines = [ FeatureRequireAdminInline, FeatureExcludeAdminInline, ]
     list_display = ('name', 'description')
@@ -184,6 +180,7 @@ class FeatureAdmin(admin.ModelAdmin):
 
 
 class GlossaryAdmin(admin.ModelAdmin):
+    form = GlossaryForm
     fields = ['term','definition']
 
     def changelist_view(self, request, extra_context=None):
@@ -217,6 +214,7 @@ class GlossaryAdmin(admin.ModelAdmin):
 
 
 class ProjectAdmin(admin.ModelAdmin):
+    form = ProjectForm
     fields = ['name', 'description', 'product',]
     filter_horizontal = ("product",)
 

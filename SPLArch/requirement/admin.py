@@ -1,3 +1,4 @@
+from SPLArch.requirement.forms import *
 from django.contrib import admin
 from django.forms import Textarea
 from SPLArch.requirement.models import*
@@ -15,6 +16,7 @@ class RequirementFeaturesAdminInline(admin.TabularInline):
     }
 
 class RequirementAdmin(admin.ModelAdmin):
+    form = RequirementForm
     fields = ['name','description','status_requirement_choices','requirement_type','priority', 'observations', ]
     inlines = [ RequirementFeaturesAdminInline ]
     formfield_overrides = {
@@ -25,6 +27,7 @@ class RequirementAdmin(admin.ModelAdmin):
 
 
 class RequirementTypeAdmin(admin.ModelAdmin):
+    form = RequirementTypeForm
     def get_model_perms(self, request):
         return {}
 
