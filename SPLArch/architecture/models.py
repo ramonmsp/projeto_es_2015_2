@@ -44,6 +44,18 @@ class DDSA(models.Model):
         verbose_name="DSSA"
         verbose_name_plural="DSSAs"
 
+class TemplateScenarios(models.Model):
+    introduction = models.CharField(max_length=100)
+    references = models.ManyToManyField('References')
+    scenarios = models.ManyToManyField('AddScenarios')
+
+    def __unicode__(self):
+        return self.introduction
+
+    class Meta:
+        verbose_name="Template Quality Scenario"
+        verbose_name_plural="Template Quality Scenarios"
+
 class Scenarios(models.Model):
     name = models.CharField(max_length=100)
     stimulus = models.TextField(blank=True)
@@ -61,7 +73,7 @@ class Scenarios(models.Model):
 class AddScenarios(models.Model):
     name = models.CharField(max_length=100)
     nf_requirement = models.ManyToManyField(Requirement)
-    scenario = models.ManyToManyField(Scenarios)
+    scenario = models.OneToOneField(Scenarios)
 
     def __unicode__(self):
         return self.name

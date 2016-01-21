@@ -199,7 +199,7 @@ class AddScenariosForm(forms.ModelForm):
 
 
 class AddScenariosAdmin(admin.ModelAdmin):
-    filter_horizontal = ("nf_requirement", "scenario")
+    filter_horizontal = ("nf_requirement",)
     form = AddScenariosForm
 
 
@@ -213,3 +213,4 @@ admin.site.register(DDSA, DSSAAdmin)
 admin.site.register(AddScenarios, AddScenariosAdmin)
 admin.site.register(Scenarios, ScenariosAdmin)
 admin.site.unregister(Architecture)
+admin.site.register(TemplateScenarios)
