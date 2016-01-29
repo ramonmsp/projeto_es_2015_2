@@ -83,6 +83,34 @@ class TechnologyAdmin(admin.ModelAdmin):
     fields = ['api', 'description', ]
     filter_horizontal = ("api",)
 
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['has_report'] = True
+        return super(TechnologyAdmin, self).changelist_view(request, extra_context=extra_context)
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        opts = self.model._meta
+        if not request.REQUEST.has_key("_change"):
+            if request.REQUEST.has_key("_report"):
+                body = Technology.getReport()
+                resp = HttpResponse(body, mimetype='application/pdf')
+                resp['Content-Disposition'] = 'attachment; filename=technology_report.pdf'
+                return resp
+            else:
+                technology = Technology.objects.get(id=object_id)
+                context = {
+                    'technology': technology,
+                    'title': _('Technology: %s') % force_unicode(technology.description),
+                    'opts': opts,
+                    'object_id': object_id,
+                    'is_popup': request.REQUEST.has_key('_popup'),
+                    'app_label': opts.app_label,
+                }
+                return render_to_response('admin/fur/technologies/view.html',
+                                          context,
+                                          context_instance=RequestContext(request))
+        return super(TechnologyAdmin, self).change_view(request, object_id, form_url, extra_context=None)
+
 
 class UseCaseMainStepsAdminInline(admin.TabularInline):
     model = MainSteps
@@ -169,16 +197,84 @@ class ScenariosAdmin(admin.ModelAdmin):
     filter_horizontal = ("nf_requirement", "feature")
 
 
+class DDSAdminInline(admin.TabularInline):
+    model = DDSA.quality_attribute_priority.through
+
+    verbose_name_plural = 'Quality Attribute Priority'
+    verbose_name = 'Quality Attribute Priority'
+    #fk_name = 'from_ddsa'
+    extra = 0
+
+
+
 class DSSAAdmin(admin.ModelAdmin):
     form = DSSAForm
-    fields = ["name", "description", "references", "technology", "scenarios", ]
-    filter_horizontal = ("references", "technology", "scenarios",)
+    fields = ["name", "introduction", "references", "technology", "requirements",]
+    filter_horizontal = ("references", "technology","requirements",)
+    inlines = [DDSAdminInline]
 
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['has_report'] = True
+        return super(DSSAAdmin, self).changelist_view(request, extra_context=extra_context)
 
-class AddScenariosAdmin(admin.ModelAdmin):
-    form = AddScenariosForm
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        opts = self.model._meta
+        if not request.REQUEST.has_key("_change"):
+            if request.REQUEST.has_key("_report"):
+                body = DDSA.getReport()
+                resp = HttpResponse(body, mimetype='application/pdf')
+                resp['Content-Disposition'] = 'attachment; filename=dssa_report.pdf'
+                return resp
+            else:
+                dssas = DDSA.objects.get(id=object_id)
+                context = {
+                    'dssas': dssas,
+                    'title': _('DSSA: %s') % force_unicode(dssas.name),
+                    'opts': opts,
+                    'object_id': object_id,
+                    'is_popup': request.REQUEST.has_key('_popup'),
+                    'app_label': opts.app_label,
+                }
+                return render_to_response('admin/fur/dssa/view.html',
+                                          context,
+                                          context_instance=RequestContext(request))
+        return super(DSSAAdmin, self).change_view(request, object_id, form_url, extra_context=None)
+
+class QualityScenariosAdmin(admin.ModelAdmin):
+    form = QualityScenariosForm
     filter_horizontal = ("nf_requirement",)
 
+class QualityScenarioDocumentAdmin(admin.ModelAdmin):
+     filter_horizontal = ("references", "quality_scenarios",)
+
+     def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['has_report'] = True
+        return super(QualityScenarioDocumentAdmin, self).changelist_view(request, extra_context=extra_context)
+
+     def change_view(self, request, object_id, form_url='', extra_context=None):
+        opts = self.model._meta
+        if not request.REQUEST.has_key("_change"):
+            if request.REQUEST.has_key("_report"):
+                body = QualityScenarioDocument.getReport()
+                resp = HttpResponse(body, mimetype='application/pdf')
+                resp['Content-Disposition'] = 'attachment; filename=qualityscenariodocument_report.pdf'
+                return resp
+            else:
+                qualityscenariodocument = QualityScenarioDocument.objects.get(id=object_id)
+                context = {
+                    'qualityscenariodocument': qualityscenariodocument,
+                    'title': _('Quality Scenario Document: %s') % force_unicode(qualityscenariodocument.introduction),
+                    'opts': opts,
+                    'object_id': object_id,
+                    'is_popup': request.REQUEST.has_key('_popup'),
+                    'app_label': opts.app_label,
+                }
+                return render_to_response('admin/fur/qualityscenariodocument/view.html',
+                                          context,
+                                          context_instance=RequestContext(request))
+        return super(QualityScenarioDocumentAdmin, self).change_view(request, object_id, form_url, extra_context=None)
 
 admin.site.unregister(Site)
 admin.site.register(UseCase, UseCaseAdmin)
@@ -187,7 +283,7 @@ admin.site.register(Technology, TechnologyAdmin)
 admin.site.register(API, ApiAdmin)
 admin.site.register(Architecture)
 admin.site.register(DDSA, DSSAAdmin)
-admin.site.register(AddScenarios, AddScenariosAdmin)
+admin.site.register(QualityScenarios, QualityScenariosAdmin)
 admin.site.register(Scenarios, ScenariosAdmin)
 admin.site.unregister(Architecture)
-admin.site.register(TemplateScenarios)
+admin.site.register(QualityScenarioDocument, QualityScenarioDocumentAdmin)

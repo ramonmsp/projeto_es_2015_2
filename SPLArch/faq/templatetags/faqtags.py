@@ -51,7 +51,7 @@ def faqs_for_topic(parser, token):
 @register.tag
 def faq_list(parser, token):
     """
-    returns a generic list of 'count' faq's to display in a list 
+    returns a generic list of 'count' faq's to display in a list
     ordered by the faq sort order.
 
     Example usage::

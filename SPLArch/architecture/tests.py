@@ -10,7 +10,10 @@ class ReferencesTestCase(TestCase):
         self.references1 = References.objects.create(
             title='Professional Android 4 Application Development',
             author='Reto Meier',
-            description=''
+            description='',
+            number=345,
+            year=2012,
+            volume=2
         )
         self.references1.save()
         self.model = self.references1
@@ -109,41 +112,6 @@ class ScenariosTestCase(TestCase):
         url = reverse("admin:%s_%s_changelist" % (self.model._meta.app_label, self.model._meta.module_name))
         response = self.client.get(url, follow=True)
         self.assertEqual(response.status_code, 200)
-
-
-class AddScenariosTestCase(TestCase):
-    def setUp(self):
-        self.add_scenarios1 = AddScenarios.objects.create(name='')
-        self.add_scenarios1.save()
-        self.model = self.add_scenarios1
-
-    def test_string_representation(self):
-        self.assertEqual(str(self.add_scenarios1), self.add_scenarios1.name)
-
-    def test_response(self):
-        url = reverse("admin:%s_%s_add" % (self.model._meta.app_label, self.model._meta.module_name))
-        response = self.client.get(url, follow=True)
-        self.assertEqual(response.status_code, 200)
-
-        url = reverse("admin:%s_%s_change" % (self.model._meta.app_label, self.model._meta.module_name),
-                      args=[self.model.id])
-        response = self.client.get(url, follow=True)
-        self.assertEqual(response.status_code, 200)
-
-        url = reverse("admin:%s_%s_delete" % (self.model._meta.app_label, self.model._meta.module_name),
-                      args=[self.model.id])
-        response = self.client.get(url, follow=True)
-        self.assertEqual(response.status_code, 200)
-
-        url = reverse("admin:%s_%s_history" % (self.model._meta.app_label, self.model._meta.module_name),
-                      args=[self.model.id])
-        response = self.client.get(url, follow=True)
-        self.assertEqual(response.status_code, 200)
-
-        url = reverse("admin:%s_%s_changelist" % (self.model._meta.app_label, self.model._meta.module_name))
-        response = self.client.get(url, follow=True)
-        self.assertEqual(response.status_code, 200)
-
 
 class APITestCase(TestCase):
     def setUp(self):

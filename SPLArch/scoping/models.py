@@ -38,14 +38,14 @@ class Feature(MPTTModel):
     binding_time = models.ForeignKey('BindingTime')
 
     parent  = TreeForeignKey('self', blank=True, null=True, related_name='children')
-    requires = models.ManyToManyField("self", blank=True, symmetrical=False,
-                                      related_name='requires_features')
+    requires = models.ManyToManyField("self", blank=True)
     excludes = models.ManyToManyField("self", blank=True, symmetrical=False,
                                       related_name='excludes_features')
     glossary = models.ManyToManyField('Glossary', blank=True)
 
     def __unicode__(self):
         return "#" + str(self.id) + " "  + self.name
+
 
     class MPTTMeta:
         order_insertion_by = ['name']

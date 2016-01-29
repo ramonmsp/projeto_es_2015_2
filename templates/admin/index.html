@@ -23,7 +23,8 @@
 
         <div class="tabbable">
             {% for app in app_list %}
-                <div id="container-{{ app.name.lower }}">
+
+                <div id="container-{{ app.name.lower }}" class="{{ app.app_url|slugify }}">
                     {% include "admin/bootstrapped_extra/app_name.html" %}
                     {% render_with_template_if_exist app.name|lower|add:"/admin_app_description.html" "" %}
                     <table id="table-{{ app.name.lower }} "summary="{% blocktrans with name=app.name %}Models available in the {{ name }} application.{% endblocktrans %}" class="table table-striped table-bordered">

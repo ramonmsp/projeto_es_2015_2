@@ -27,48 +27,15 @@ class ProductAdmin(admin.ModelAdmin):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         opts = self.model._meta
+
+
         if not request.REQUEST.has_key("_change"):
             if request.REQUEST.has_key("_zipreport"):
+
                 product = Product.objects.get(id=object_id)
-                #use case
-                usecase = UseCase.getReport(product)
-                usecaseTemp = NamedTemporaryFile()
-                usecaseTemp.close()
-                usecaseTemp = codecs.open(usecaseTemp.name,'wb')
-                usecaseTemp.write(usecase)
-                usecaseTemp.close()
+                artifacts = request.GET.getlist('artifact[]')
+                zipreport = request.GET.get('_zipreport')
 
-                #Feature
-                features = Feature.getReport(product)
-                featuresTemp = NamedTemporaryFile()
-                featuresTemp.close()
-                featuresTemp = codecs.open(featuresTemp.name,'wb')
-                featuresTemp.write(features)
-                featuresTemp.close()
-
-                #Glossary
-                glossary = Glossary.getReport(product)
-                glossaryTemp = NamedTemporaryFile()
-                glossaryTemp.close()
-                glossaryTemp = codecs.open(glossaryTemp.name,'wb')
-                glossaryTemp.write(glossary)
-                glossaryTemp.close()
-
-                #API
-                api = API.getReport(product)
-                apisTemp = NamedTemporaryFile()
-                apisTemp.close()
-                apisTemp = codecs.open(apisTemp.name,'wb')
-                apisTemp.write(api)
-                apisTemp.close()
-
-                #References
-                references = References.getReport(product)
-                referencesTemp = NamedTemporaryFile()
-                referencesTemp.close()
-                referencesTemp = codecs.open(referencesTemp.name,'wb')
-                referencesTemp.write(references)
-                referencesTemp.close()
 
                 # Folder name in ZIP archive which contains the above files
                 # E.g [thearchive.zip]/somefiles/file2.txt
@@ -82,19 +49,107 @@ class ProductAdmin(admin.ModelAdmin):
                 # The zip compressor
                 zf = zipfile.ZipFile(s, "w")
 
-                # Calculate path for file in zip
-                usecase_zip_path = os.path.join(zip_subdir, product.name+"_usecase_report.pdf")
-                feature_zip_path = os.path.join(zip_subdir, product.name+"_features_report.pdf")
-                glossary_zip_path = os.path.join(zip_subdir, product.name+"_glossary_report.pdf")
-                apis_zip_path = os.path.join(zip_subdir, product.name+"_apis_report.pdf")
-                references_zip_path = os.path.join(zip_subdir, product.name+"_references_report.pdf")
+                if 'usecase' in artifacts or zipreport == 'all_artifacts':
+                    usecase = UseCase.getReport(product)
+                    usecaseTemp = NamedTemporaryFile()
+                    usecaseTemp.close()
+                    usecaseTemp = codecs.open(usecaseTemp.name,'wb')
+                    usecaseTemp.write(usecase)
+                    usecaseTemp.close()
 
-                # Add file, at correct path
-                zf.write(usecaseTemp.name, usecase_zip_path)
-                zf.write(featuresTemp.name, feature_zip_path)
-                zf.write(glossaryTemp.name, glossary_zip_path)
-                zf.write(apisTemp.name, apis_zip_path)
-                zf.write(referencesTemp.name, references_zip_path)
+                    usecase_zip_path = os.path.join(zip_subdir, product.name+"_usecase_report.pdf")
+                    zf.write(usecaseTemp.name, usecase_zip_path)
+
+                #Feature
+                if 'features' in artifacts or zipreport == 'all_artifacts':
+                    features = Feature.getReport(product)
+                    featuresTemp = NamedTemporaryFile()
+                    featuresTemp.close()
+                    featuresTemp = codecs.open(featuresTemp.name,'wb')
+                    featuresTemp.write(features)
+                    featuresTemp.close()
+
+                    feature_zip_path = os.path.join(zip_subdir, product.name+"_features_report.pdf")
+                    zf.write(featuresTemp.name, feature_zip_path)
+
+                #Glossary
+                if 'glossary' in artifacts or zipreport == 'all_artifacts':
+                    glossary = Glossary.getReport(product)
+                    glossaryTemp = NamedTemporaryFile()
+                    glossaryTemp.close()
+                    glossaryTemp = codecs.open(glossaryTemp.name,'wb')
+                    glossaryTemp.write(glossary)
+                    glossaryTemp.close()
+
+                    glossary_zip_path = os.path.join(zip_subdir, product.name+"_glossary_report.pdf")
+                    zf.write(glossaryTemp.name, glossary_zip_path)
+
+                #API
+                if 'apis' in artifacts or zipreport == 'all_artifacts':
+                    api = API.getReport(product)
+                    apisTemp = NamedTemporaryFile()
+                    apisTemp.close()
+                    apisTemp = codecs.open(apisTemp.name,'wb')
+                    apisTemp.write(api)
+                    apisTemp.close()
+
+                    apis_zip_path = os.path.join(zip_subdir, product.name+"_apis_report.pdf")
+                    zf.write(apisTemp.name, apis_zip_path)
+
+                #References
+                if 'references' in artifacts or zipreport == 'all_artifacts':
+                    references = References.getReport(product)
+                    referencesTemp = NamedTemporaryFile()
+                    referencesTemp.close()
+                    referencesTemp = codecs.open(referencesTemp.name,'wb')
+                    referencesTemp.write(references)
+                    referencesTemp.close()
+                    references_zip_path = os.path.join(zip_subdir, product.name+"_references_report.pdf")
+                    zf.write(referencesTemp.name, references_zip_path)
+
+
+                 #Requirements
+                if 'requirements' in artifacts or zipreport == 'all_artifacts':
+                    requirements = Requirement.getReport(product)
+                    requirementsTemp = NamedTemporaryFile()
+                    requirementsTemp.close()
+                    requirementsTemp = codecs.open(requirementsTemp.name,'wb')
+                    requirementsTemp.write(requirements)
+                    requirementsTemp.close()
+                    requirements_zip_path = os.path.join(zip_subdir, product.name+"_requirements_report.pdf")
+                    zf.write(requirementsTemp.name,requirements_zip_path)#Requirements
+
+                if 'dssas' in artifacts or zipreport == 'all_artifacts':
+                    dssas = DDSA.getReport(product)
+                    dssasTemp = NamedTemporaryFile()
+                    dssasTemp.close()
+                    dssasTemp = codecs.open(dssasTemp.name,'wb')
+                    dssasTemp.write(dssas)
+                    dssasTemp.close()
+                    dssas_zip_path = os.path.join(zip_subdir, product.name+"_dssas_report.pdf")
+                    zf.write(dssasTemp.name,dssas_zip_path)
+
+                if 'technologies' in artifacts or zipreport == 'all_artifacts':
+                    technologies =  Technology.getReport(product)
+                    technologiesTemp = NamedTemporaryFile()
+                    technologiesTemp.close()
+                    technologiesTemp = codecs.open(technologiesTemp.name,'wb')
+                    technologiesTemp.write(technologies)
+                    technologiesTemp.close()
+                    technologies_zip_path = os.path.join(zip_subdir, product.name+"_technologies_report.pdf")
+                    zf.write(technologiesTemp.name, technologies_zip_path)
+
+                if 'qualityscenariodocuments' in artifacts or zipreport == 'all_artifacts':
+                    qualityscenariodocuments =  QualityScenarioDocument.getReport(product)
+                    qualityscenariodocumentsTemp = NamedTemporaryFile()
+                    qualityscenariodocumentsTemp.close()
+                    qualityscenariodocumentsTemp = codecs.open(qualityscenariodocumentsTemp.name,'wb')
+                    qualityscenariodocumentsTemp.write(qualityscenariodocuments)
+                    qualityscenariodocumentsTemp.close()
+                    qualityscenariodocuments_zip_path = os.path.join(zip_subdir, product.name+"_qualityscenariodocuments_report.pdf")
+                    zf.write(qualityscenariodocumentsTemp.name, qualityscenariodocuments_zip_path)
+
+
 
                 # Must close zip for all contents to be written
                 zf.close()
@@ -137,7 +192,6 @@ class FeatureRequireAdminInline(admin.TabularInline):
     #I gor the fk_name using the django shell, by inspecting the objet Feature
     fk_name = 'from_feature'
     extra = 0
-    #form = RequiredFeaturesForm
 
 
 class FeatureAdmin(admin.ModelAdmin):

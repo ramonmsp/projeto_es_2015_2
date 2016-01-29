@@ -2,32 +2,31 @@
  var tour = {
      id: "splarch-welcome",
      selectors: {
-         init: '#architecture',
+         init: '#architecture'
      },
-     showCloseButton: true,
      i18n: {
         nextBtn: 'Next',
         prevBtn: 'Previous',
-        doneBtn: "Done",
+        doneBtn: "Ok",
         skipBtn: "Exit",
-        closeTooltip: "Close",
+        closeTooltip: "Close"
      },
      showCloseButton: true,
      showPrevButton: true,
      steps: [
          {
              title: "Architecture",
-             content: "Texto para decisões",
+             content: "Module for architectures registration",
              target: "architecture",
              placement: "right",
              yOffset: 100,
              xOffset: -500,
              delay: 1,
-             zindex: 0,
+             zindex: 0
          },
          {
              title: "Auth",
-             content: "Texto para arquitetura",
+             content: "Module of authentication and user control",
              target: "auth",
              placement: "right",
              yOffset: 40,
@@ -37,7 +36,7 @@
          },
          {
              title: "FAQ",
-             content: "Realize pesquisas pelo sistema",
+             content: "Check frequently asked questions about the software",
              target: "faq",
              placement: "right",
              xOffset: -500,
@@ -46,7 +45,7 @@
          },
          {
              title: "Requirement",
-             content: "Texto para empresas",
+             content: "Module for Requirements registration",
              target: 'requirement',
              placement: "right",
              xOffset: -500,
@@ -55,7 +54,7 @@
          },
          {
              title: "Scoping",
-             content: "Adicione ou modifique conteudo",
+             content: "Module for Scoping registration",
              target: 'scoping',
              placement: "right",
              xOffset: -500,

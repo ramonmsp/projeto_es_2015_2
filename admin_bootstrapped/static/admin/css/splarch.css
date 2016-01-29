@@ -311,7 +311,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 
 
 
-/** FAQ **/
+/** faq **/
 
 
 #faq-topic-list ul,
@@ -342,6 +342,21 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     display: inline-block;
     margin-bottom: 30px;
 }
+
+#select-artifacts{
+    background: #16a085;
+}
+
+#table-select-artifacts thead th{
+    padding: 10px 7px;
+}
+
+#table-select-artifacts td:first-child{
+    text-align: center; /* center checkbox horizontally */
+    vertical-align: middle; /* center checkbox vertically */
+    width: 50px;
+}
+
 @media (max-width: 979px){
 
     .navbar-fixed-top{
@@ -353,3 +368,31 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     margin-top: 0px;
     }
 }
+
+
+#faq{
+    text-transform: uppercase;
+}
+
+.adminauth,
+.adminfaq{
+    display: none;
+}
+/**
+
+.filtered {
+    width: 370px;
+}
+
+.selector{
+    width: 100%;
+}
+.selector-available, .selector-chosen {
+    width: 34%;
+}
+
+.selector select{
+    width: 100%;
+}
+
+**/

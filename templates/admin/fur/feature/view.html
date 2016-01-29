@@ -93,23 +93,6 @@
 		    {% endfor %}
 		</td>
 	</tr>
-	<tr>
-		<td nowrap="nowrap"><b>Use Cases with this feature:</b></td> 
-		<td>
-		    {% for usecase in feature.usecase_set.all %}
-		 <ul><a href="{{ usecase.get_admin_url }}">{{ usecase.title }}</a></ul>
-		    {% endfor %}
-		</td>
-	</tr>
-	<tr>
-		<td nowrap="nowrap"><b>Use Stories with this feature:</b></td> 
-		<td>
-		    {% for story in feature.userstory_set.all %}
-		 <ul><a href="{{ story.get_admin_url }}">{{ story.name }}</a></ul>
-		    {% endfor %}
-		</td>
-	</tr>
-
 </table> 
 </div>
 {% endblock %}

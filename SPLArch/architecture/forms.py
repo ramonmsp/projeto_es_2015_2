@@ -1,5 +1,8 @@
 from SPLArch.architecture.models import *
+from django.forms import IntegerField, TextInput, CharField
+import datetime
 from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
 
 class ApiForm(forms.ModelForm):
@@ -14,6 +17,11 @@ class ApiForm(forms.ModelForm):
 
 
 class ReferencesForm(forms.ModelForm):
+    #pages = CharField(widget=TextInput(attrs={'type':'number', 'required': ''}))
+    #number = CharField(widget=TextInput(attrs={'type':'number'}))
+    #volume = CharField(widget=TextInput(attrs={'type':'number'}))
+    year = CharField(widget=TextInput(attrs={'type':'number', 'pattern':'^\d{4}$', 'max': datetime.datetime.now().year}))
+
     class Meta:
         model = References
 
@@ -42,7 +50,7 @@ class UseCaseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UseCaseForm, self).__init__(*args, **kwargs)
         wtf = Requirement.objects.filter(
-            requirement_type=RequirementType.objects.filter(name='Functional Requirements'));
+            requirement_type=RequirementType.objects.filter(name='Functional Requirements'))
 
         w = self.fields['f_requirements'].widget
         choices = []
@@ -80,8 +88,22 @@ class ScenariosForm(forms.ModelForm):
 
 
 class DSSAForm(forms.ModelForm):
+
     class Meta:
         model = DDSA
+
+    requirements = forms.ModelMultipleChoiceField(
+        queryset=Requirement.objects.all().order_by('-priority'),
+        widget=FilteredSelectMultiple(
+            'requirements',
+            False
+        ),
+        label='Architectural Drives (Requirements)'
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(DSSAForm, self).__init__(*args, **kwargs)
+        self.fields['requirements'].label_from_instance = lambda obj: "%s" % obj.name + ' (' + obj.priority.name + ')'
 
     def clean(self):
         for field in self.cleaned_data:
@@ -90,14 +112,14 @@ class DSSAForm(forms.ModelForm):
         return self.cleaned_data
 
 
-class AddScenariosForm(forms.ModelForm):
+class QualityScenariosForm(forms.ModelForm):
     class Meta:
-        model = AddScenarios
+        model = QualityScenarios
 
     def __init__(self, *args, **kwargs):
-        super(AddScenariosForm, self).__init__(*args, **kwargs)
+        super(QualityScenariosForm, self).__init__(*args, **kwargs)
         wtf = Requirement.objects.filter(
-            requirement_type=RequirementType.objects.filter(name='Non-functional requirement'));
+            requirement_type=RequirementType.objects.filter(name='Non-functional requirement'))
 
         w = self.fields['nf_requirement'].widget
         choices = []

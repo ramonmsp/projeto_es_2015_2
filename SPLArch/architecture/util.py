@@ -1,6 +1,7 @@
 from django.template.loader import render_to_string
 from django.core.files.temp import NamedTemporaryFile
 
+
 def render_to_latex(template, context, context_instance=None):
     import os, codecs
     body = render_to_string(template, context, context_instance)
@@ -12,9 +13,10 @@ def render_to_latex(template, context, context_instance=None):
     body = body.replace('&#39;', '\'')
     body = body.replace('<br>', '\\')
     body = body.replace('#', '\\#')
+
     tempf = NamedTemporaryFile()
     tempf.close()
-    tempf = codecs.open(tempf.name,'w', 'utf-8')
+    tempf = codecs.open(tempf.name, 'w', 'utf-8')
     tempf.write(body)
     tempf.close()
     for i in range(3):

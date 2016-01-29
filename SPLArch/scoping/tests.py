@@ -10,6 +10,8 @@ class LoginTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+
+
 class ProductTestCase(TestCase):
     def setUp(self):
         self.product1 = Product.objects.create(

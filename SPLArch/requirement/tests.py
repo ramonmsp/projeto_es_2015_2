@@ -38,7 +38,9 @@ class RequirementTestCase(TestCase):
     def setUp(self):
         self.requirement1 = Requirement.objects.create(
             name='Add Contact',
-            requirement_type = RequirementType.objects.create(name='Functional Requirements'),
+            requirement_type=RequirementType.objects.create(name='Functional Requirements'),
+            priority=PriorityRequirement.objects.create(name='low', level=1),
+            status_requirement_choices='proposed'
         )
         self.requirement1.save()
         self.model = self.requirement1

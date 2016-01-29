@@ -5,11 +5,12 @@ from django.contrib.auth import get_user_model
 from django.template.defaultfilters import slugify
 from managers import QuestionManager
 
+
 User = get_user_model()
 
 class Topic(models.Model):
     """
-    Generic Topics for FAQ question grouping
+    Generic Topics for faq question grouping
     """
     name = models.CharField(_('name'), max_length=150)
     slug = models.SlugField(_('slug'), max_length=150)

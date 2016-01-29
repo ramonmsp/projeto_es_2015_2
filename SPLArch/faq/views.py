@@ -91,7 +91,7 @@ class SubmitFAQ(CreateView):
     def form_valid(self, form):
         response = super(SubmitFAQ, self).form_valid(form)
         messages.success(self.request,
-            _("Your question was submitted and will be reviewed by for inclusion in the FAQ."),
+            _("Your question was submitted and will be reviewed by for inclusion in the faq."),
             fail_silently=True,
         )
         return response

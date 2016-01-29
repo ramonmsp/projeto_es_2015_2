@@ -13,9 +13,11 @@ settings.configure(
     ROOT_URLCONF = 'faq.urls',
 )
 
+'''
 def runtests():
     import django.test.utils
     runner_class = django.test.utils.get_runner(settings)
     test_runner = runner_class(verbosity=1, interactive=True)
     failures = test_runner.run_tests(['faq'])
     sys.exit(failures)
+'''

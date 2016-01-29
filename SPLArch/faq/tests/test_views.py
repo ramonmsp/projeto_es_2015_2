@@ -8,7 +8,7 @@ from django.conf import settings
 from ..models import Topic, Question
 
 class FAQViewTests(django.test.TestCase):
-    urls = 'faq.urls'
+    urls = 'SPLArch.faq.urls'
     fixtures = ['faq_test_data.json']
 
     def setUp(self):

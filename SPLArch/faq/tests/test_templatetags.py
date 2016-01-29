@@ -112,7 +112,7 @@ class FAQTagsNodeTests(django.test.TestCase):
         self.assertQuerysetEqual(context['faqs'], 
             ['<Question: What is your favorite color?>',
              '<Question: What is your quest?>',
-             '<Question: What is Django-FAQ?>'])
+             '<Question: What is Django-faq?>'])
              
     def test_faq_list_node_variable_arguments(self):
         """
