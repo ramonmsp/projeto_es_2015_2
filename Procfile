@@ -1,1 +1,1 @@
-web: gunicorn SPLArch.wsgi --log-file -
+web: gunicorn SPLArch.wsgi:application --log-file -
